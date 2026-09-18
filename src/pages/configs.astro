@@ -1,1 +1,138 @@
-Hey GitHub, please give me the list of files inside the /Roblox folder.
+---
+// This runs on the server before the page loads
+const GITHUB_USERNAME = "Vaericthedev";
+const REPO_NAME = "my-config-site2";
+const FOLDER_NAME = "Roblox"; 
+---
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Vixix Configs</title>
+    <style>
+        /* Basic Dark Mode Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 { color: #5865F2; /* Discord Blurple */ }
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        input, select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background-color: #2b2b2b;
+            color: white;
+        }
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .config-card {
+            background-color: #2b2b2b;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .config-card h3 { margin: 0 0 10px 0; word-break: break-all; }
+        .download-btn {
+            display: inline-block;
+            background-color: #5865F2;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .download-btn:hover { background-color: #4752c4; }
+        #loading { font-style: italic; color: #aaa; }
+    </style>
+</head>
+<body>
+    <h1>🎮 Roblox Configs</h1>
+    <p>Download the latest configs below!</p>
+
+    <div class="controls">
+        <input type="text" id="searchBar" placeholder="Search configs..." onkeyup="filterConfigs()" />
+        <select id="sortSelect" onchange="sortConfigs()">
+            <option value="name-asc">Sort by Name (A-Z)</option>
+            <option value="name-desc">Sort by Name (Z-A)</option>
+        </select>
+    </div>
+
+    <p id="loading">Loading configs from GitHub... ⏳</p>
+    <div class="config-grid" id="configGrid"></div>
+
+    <script>
+        // This part runs in the user's browser
+        const API_URL = `https://api.github.com/repos/Vaericthedev/my-config-site2/contents/Roblox`;
+        let allConfigs = [];
+
+        async function fetchConfigs() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                // Filter to only get .json, .cfg, and .txt files
+                allConfigs = data.filter(file => 
+                    file.name.endsWith('.json') || 
+                    file.name.endsWith('.cfg') || 
+                    file.name.endsWith('.txt')
+                );
+
+                document.getElementById('loading').style.display = 'none';
+                renderConfigs(allConfigs);
+            } catch (error) {
+                document.getElementById('loading').innerText = "Error loading configs. Make sure the folder exists on GitHub!";
+            }
+        }
+
+        function renderConfigs(configs) {
+            const grid = document.getElementById('configGrid');
+            grid.innerHTML = '';
+
+            if (configs.length === 0) {
+                grid.innerHTML = '<p>No configs found.</p>';
+                return;
+            }
+
+            configs.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'config-card';
+                card.innerHTML = `
+                    <h3>${file.name}</h3>
+                    <a href="${file.download_url}" class="download-btn" download>Download</a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterConfigs() {
+            const query = document.getElementById('searchBar').value.toLowerCase();
+            const filtered = allConfigs.filter(file => file.name.toLowerCase().includes(query));
+            renderConfigs(filtered);
+        }
+
+        function sortConfigs() {
+            const sortValue = document.getElementById('sortSelect').value;
+            const sorted = [...allConfigs].sort((a, b) => {
+                if (sortValue === 'name-asc') return a.name.localeCompare(b.name);
+                if (sortValue === 'name-desc') return b.name.localeCompare(a.name);
+                return 0;
+            });
+            renderConfigs(sorted);
+        }
+
+        // Start fetching when the page loads
+        fetchConfigs();
+    </script>
+</body>
+</html>

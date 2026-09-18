@@ -97,7 +97,8 @@ const FOLDER_NAME = "Roblox";
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            /* IMPORTANT: This stops items from stretching to full width */
+            align-items: flex-start; 
             gap: 15px;
         }
 
@@ -118,31 +119,31 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 6. CLEAN TRANSPARENT HORIZONTAL BUTTON    */
+        /* 6. SMALL TRANSPARENT HORIZONTAL BUTTON    */
         /* ========================================= */
-        .ios-download-btn {
-            /* Force Horizontal Layout */
-            display: flex !important;
+        .download-btn {
+            /* Horizontal layout */
+            display: inline-flex !important;
             flex-direction: row !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 8px !important; /* Space between icon and text */
+            gap: 6px !important; /* Space between icon and text */
             
-            /* Sizing */
-            width: 100% !important;
-            height: 44px !important; 
-            box-sizing: border-box !important;
-            padding: 0 !important;
+            /* Small sizing (Doesn't fill the box) */
+            width: auto !important; 
+            height: auto !important;
+            padding: 8px 14px !important;
+            margin: 0 !important;
 
-            /* Completely Transparent Glass */
+            /* Completely Transparent */
             background: transparent !important; 
-            border: 1px solid rgba(255, 255, 255, 0.25) !important; /* Subtle white border */
-            border-radius: 22px !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; /* Subtle outline */
+            border-radius: 8px !important; /* Clean rounded corners */
             color: #ffffff !important;
             
-            /* Typography */
+            /* Small text */
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
-            font-size: 15px !important;
+            font-size: 13px !important;
             font-weight: 600 !important;
             text-decoration: none !important;
             
@@ -152,27 +153,27 @@ const FOLDER_NAME = "Roblox";
             transition: all 0.2s ease !important;
         }
 
-        /* Hover: Slight frosted glass appearance */
-        .ios-download-btn:hover {
+        /* Hover: Subtle frosted glass glow */
+        .download-btn:hover {
             background: rgba(255, 255, 255, 0.1) !important;
             border-color: rgba(255, 255, 255, 0.5) !important;
             transform: translateY(-1px) !important;
         }
 
         /* Click: Tactile press */
-        .ios-download-btn:active {
-            transform: scale(0.98) translateY(0) !important;
+        .download-btn:active {
+            transform: scale(0.97) translateY(0) !important;
             background: rgba(255, 255, 255, 0.05) !important;
         }
 
-        /* Force the SVG to stay tiny, white, and unbroken */
-        .ios-download-btn svg {
-            width: 16px !important;
-            height: 16px !important;
-            min-width: 16px !important;
-            max-width: 16px !important;
-            min-height: 16px !important;
-            max-height: 16px !important;
+        /* Force the SVG to be tiny, white, and unbroken */
+        .download-btn svg {
+            width: 14px !important;
+            height: 14px !important;
+            min-width: 14px !important;
+            max-width: 14px !important;
+            min-height: 14px !important;
+            max-height: 14px !important;
             flex-shrink: 0 !important;
             display: block !important;
             stroke: #ffffff !important;
@@ -244,7 +245,7 @@ const FOLDER_NAME = "Roblox";
                 title.textContent = file.name;
 
                 const btn = document.createElement('button');
-                btn.className = 'ios-download-btn';
+                btn.className = 'download-btn';
                 
                 btn.innerHTML = `
                     <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">

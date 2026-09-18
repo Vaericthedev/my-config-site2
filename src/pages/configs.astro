@@ -1,8 +1,7 @@
 ---
 // This runs on the server before the page loads
 const GITHUB_USERNAME = "Vaericthedev";
-const REPO_NAME = "my-config-site2";
-const FOLDER_NAME = "Roblox"; 
+const REPO_NAME = "my-config-site2"; 
 ---
 
 <html lang="en">
@@ -26,175 +25,52 @@ const FOLDER_NAME = "Roblox";
             --btn-solid-bg: #5865F2; 
             --btn-solid-hover: #4752c4;
             --btn-solid-text: #ffffff;
+            --tab-active-bg: #5865F2;
+            --tab-active-text: #ffffff;
         }
-
         body.theme-abyss {
-            --bg: #000000;
-            --bg-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000&auto=format&fit=crop');
-            --bg-overlay: rgba(0, 0, 0, 0.65);
-            --card-bg: rgba(17, 17, 17, 0.65);
-            --border: #222222;
-            --text: #eeeeee;
-            --text-muted: #888888;
-            --text-bright: #ffffff;
-            --input-bg: rgba(17, 17, 17, 0.8);
-            --btn-solid-bg: #00e5ff; 
-            --btn-solid-hover: #00b8cc;
-            --btn-solid-text: #000000; 
+            --bg: #000000; --bg-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000&auto=format&fit=crop'); --bg-overlay: rgba(0, 0, 0, 0.65); --card-bg: rgba(17, 17, 17, 0.65); --border: #222222; --text: #eeeeee; --text-muted: #888888; --text-bright: #ffffff; --input-bg: rgba(17, 17, 17, 0.8); --btn-solid-bg: #00e5ff; --btn-solid-hover: #00b8cc; --btn-solid-text: #000000; --tab-active-bg: #00e5ff; --tab-active-text: #000000;
         }
-
         body.theme-ghost {
-            --bg: #f6f8fa;
-            --bg-image: url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2000&auto=format&fit=crop');
-            --bg-overlay: rgba(246, 248, 250, 0.65);
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --border: #d0d7de;
-            --text: #24292f;
-            --text-muted: #57606a;
-            --text-bright: #000000;
-            --input-bg: rgba(255, 255, 255, 0.8);
-            --btn-solid-bg: #24292f; 
-            --btn-solid-hover: #000000;
-            --btn-solid-text: #ffffff;
+            --bg: #f6f8fa; --bg-image: url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2000&auto=format&fit=crop'); --bg-overlay: rgba(246, 248, 250, 0.65); --card-bg: rgba(255, 255, 255, 0.7); --border: #d0d7de; --text: #24292f; --text-muted: #57606a; --text-bright: #000000; --input-bg: rgba(255, 255, 255, 0.8); --btn-solid-bg: #24292f; --btn-solid-hover: #000000; --btn-solid-text: #ffffff; --tab-active-bg: #24292f; --tab-active-text: #ffffff;
         }
-
         body.theme-vixix {
-            --bg: #120f1c;
-            --bg-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop');
-            --bg-overlay: rgba(18, 15, 28, 0.8);
-            --card-bg: rgba(28, 23, 39, 0.8);
-            --border: #2d253a;
-            --text: #e0d8f0;
-            --text-muted: #8b7fa8;
-            --text-bright: #ffffff;
-            --input-bg: rgba(28, 23, 39, 0.9);
-            --btn-solid-bg: #8b5cf6; 
-            --btn-solid-hover: #7c3aed;
-            --btn-solid-text: #ffffff;
+            --bg: #120f1c; --bg-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop'); --bg-overlay: rgba(18, 15, 28, 0.8); --card-bg: rgba(28, 23, 39, 0.8); --border: #2d253a; --text: #e0d8f0; --text-muted: #8b7fa8; --text-bright: #ffffff; --input-bg: rgba(28, 23, 39, 0.9); --btn-solid-bg: #8b5cf6; --btn-solid-hover: #7c3aed; --btn-solid-text: #ffffff; --tab-active-bg: #8b5cf6; --tab-active-text: #ffffff;
         }
 
-        /* ========================================= */
-        /* 2. BASE RESET & BACKGROUND ENGINE         */
-        /* ========================================= */
+        /* 2. BASE RESET & LAYOUT */
         *, *::before, *::after { box-sizing: border-box; }
-        
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.5;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            background-color: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; line-height: 1.5; min-height: 100vh; display: flex; justify-content: center; transition: background-color 0.3s ease, color 0.3s ease;
         }
+        #bg-layer { position: fixed; top: -20px; left: -20px; width: calc(100% + 40px); height: calc(100% + 40px); z-index: -2; background-image: var(--bg-image); background-size: cover; background-position: center; filter: blur(12px); transition: background-image 0.5s ease; }
+        #bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: var(--bg-overlay); transition: background-color 0.5s ease; }
+        .container { width: 100%; max-width: 900px; background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); transition: background-color 0.3s ease, border-color 0.3s ease; }
 
-        #bg-layer {
-            position: fixed;
-            top: -20px;
-            left: -20px;
-            width: calc(100% + 40px);
-            height: calc(100% + 40px);
-            z-index: -2;
-            background-image: var(--bg-image);
-            background-size: cover;
-            background-position: center;
-            filter: blur(12px);
-            transition: background-image 0.5s ease;
-        }
-
-        #bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-color: var(--bg-overlay);
-            transition: background-color 0.5s ease;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 32px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 16px;
-        }
+        /* 3. HEADER */
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
         .header-text h1 { margin: 0 0 8px 0; font-size: 24px; font-weight: 600; color: var(--text-bright); }
         .header-text p { margin: 0; color: var(--text-muted); font-size: 14px; }
+        .theme-switcher { padding: 8px 12px; background-color: var(--input-bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: inherit; font-size: 13px; outline: none; cursor: pointer; }
 
-        .theme-switcher {
-            padding: 8px 12px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 13px;
-            outline: none;
-            cursor: pointer;
+        /* 4. CATEGORY TABS */
+        .category-tabs { display: flex; gap: 8px; margin-bottom: 24px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1px solid var(--border); }
+        .cat-btn {
+            flex: 1; padding: 10px 16px; border-radius: 8px; border: none; background: transparent; color: var(--text-muted); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
         }
+        .cat-btn:hover { color: var(--text-bright); background: rgba(255, 255, 255, 0.05); }
+        .cat-btn.active { background: var(--tab-active-bg); color: var(--tab-active-text); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
 
+        /* 5. CONTROLS */
         .controls { display: flex; gap: 12px; margin-bottom: 24px; }
-        input, select {
-            flex: 1;
-            padding: 10px 14px;
-            background-color: var(--input-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 14px;
-            outline: none;
-        }
+        input, select { flex: 1; padding: 10px 14px; background-color: var(--input-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
 
-        .config-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
-
-        .config-card {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            transition: border-color 0.2s ease;
-            align-items: stretch; 
-        }
-
+        /* 6. GRID & CARDS */
+        .config-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .config-card { background-color: var(--card-bg); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 16px; transition: border-color 0.2s ease; align-items: stretch; }
         .config-card:hover { border-color: var(--text-muted); }
-
-        .config-card h3 { 
-            margin: 0; 
-            word-break: break-all; 
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-bright);
-        }
-
+        .config-card h3 { margin: 0; word-break: break-all; font-size: 14px; font-weight: 500; color: var(--text-bright); }
         #loading { color: var(--text-muted); font-size: 14px; text-align: center; padding: 20px; }
     </style>
 </head>
@@ -206,8 +82,8 @@ const FOLDER_NAME = "Roblox";
     <div class="container">
         <div class="header">
             <div class="header-text">
-                <h1>Roblox Configs</h1>
-                <p>Download the latest premium configs below.</p>
+                <h1>Vixix Configs</h1>
+                <p>Select a category to view the latest premium configs.</p>
             </div>
             <select id="themeSwitcher" class="theme-switcher">
                 <option value="theme-midnight">Midnight</option>
@@ -217,56 +93,76 @@ const FOLDER_NAME = "Roblox";
             </select>
         </div>
 
+        <!-- CATEGORY TABS -->
+        <div class="category-tabs">
+            <button class="cat-btn active" data-category="UE">UE</button>
+            <button class="cat-btn" data-category="MATRIX">MATRIX</button>
+            <button class="cat-btn" data-category="MATCHA">MATCHA</button>
+        </div>
+
         <div class="controls">
-            <!-- REMOVED oninput from here -->
             <input type="text" id="searchBar" placeholder="Search configs..." />
-            <!-- REMOVED onchange from here -->
             <select id="sortSelect">
                 <option value="name-asc">Sort by Name (A-Z)</option>
                 <option value="name-desc">Sort by Name (Z-A)</option>
             </select>
         </div>
 
-        <p id="loading">Loading configs from GitHub... ⏳</p>
+        <p id="loading">Loading configs...</p>
         <div class="config-grid" id="configGrid"></div>
     </div>
 
     <script>
         // ==========================================
-        // THEME SWITCHER LOGIC
+        // THEME SWITCHER
         // ==========================================
         const savedTheme = localStorage.getItem('vixix-theme');
         if (savedTheme) {
             document.body.className = savedTheme;
             document.getElementById('themeSwitcher').value = savedTheme;
         }
-
         document.getElementById('themeSwitcher').addEventListener('change', (e) => {
-            const newTheme = e.target.value;
-            document.body.className = newTheme;
-            localStorage.setItem('vixix-theme', newTheme);
+            document.body.className = e.target.value;
+            localStorage.setItem('vixix-theme', e.target.value);
         });
 
         // ==========================================
-        // CONFIG FETCHING & RENDERING
+        // CONFIG FETCHING & CATEGORY LOGIC
         // ==========================================
-        const API_URL = `https://api.github.com/repos/Vaericthedev/my-config-site2/contents/Roblox`;
+        const GITHUB_USERNAME = "Vaericthedev";
+        const REPO_NAME = "my-config-site2";
+        
         let allConfigs = [];
+        let currentCategory = 'UE'; // Default category
 
         async function fetchConfigs() {
+            const loadingEl = document.getElementById('loading');
+            const gridEl = document.getElementById('configGrid');
+            
+            loadingEl.style.display = 'block';
+            loadingEl.innerText = `Loading ${currentCategory} configs...`;
+            gridEl.innerHTML = ''; // Clear grid while loading
+
             try {
+                // Directly fetch from GitHub API using the current category folder
+                const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${currentCategory}`;
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                allConfigs = data.filter(file => {
-                    const name = file.name.toLowerCase();
-                    return name.endsWith('.json') || name.endsWith('.cfg') || name.endsWith('.txt');
-                });
+                if (Array.isArray(data)) {
+                    allConfigs = data.filter(file => {
+                        const name = file.name.toLowerCase();
+                        return name.endsWith('.json') || name.endsWith('.cfg') || name.endsWith('.txt');
+                    });
+                } else {
+                    allConfigs = []; // Folder is empty or doesn't exist
+                }
 
-                document.getElementById('loading').style.display = 'none';
+                loadingEl.style.display = 'none';
                 renderConfigs(allConfigs);
             } catch (error) {
-                document.getElementById('loading').innerText = "Error loading configs. Make sure the folder exists on GitHub!";
+                loadingEl.innerText = `Error loading ${currentCategory} configs. Make sure the folder exists on GitHub!`;
+                console.error(error);
             }
         }
 
@@ -275,7 +171,7 @@ const FOLDER_NAME = "Roblox";
             grid.innerHTML = '';
 
             if (configs.length === 0) {
-                grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1;">No configs found.</p>';
+                grid.innerHTML = `<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 20px;">No configs found in ${currentCategory}.</p>`;
                 return;
             }
 
@@ -291,33 +187,14 @@ const FOLDER_NAME = "Roblox";
                 btn.textContent = 'Download';
                 
                 btn.style.cssText = `
-                    -webkit-appearance: none !important;
-                    appearance: none !important;
-                    display: block !important;
-                    width: 100% !important;
-                    padding: 14px 20px !important;
-                    border-radius: 9999px !important;
-                    border: none !important;
-                    text-align: center !important;
-                    background-color: var(--btn-solid-bg) !important;
-                    color: var(--btn-solid-text) !important;
-                    font-family: inherit !important;
-                    font-size: 14px !important;
-                    font-weight: 700 !important;
-                    letter-spacing: 0.5px !important;
-                    cursor: pointer !important;
-                    outline: none !important;
-                    transition: background-color 0.2s ease, transform 0.1s ease !important;
+                    -webkit-appearance: none !important; appearance: none !important; display: block !important; width: 100% !important; padding: 14px 20px !important; border-radius: 9999px !important; border: none !important; text-align: center !important; background-color: var(--btn-solid-bg) !important; color: var(--btn-solid-text) !important; font-family: inherit !important; font-size: 14px !important; font-weight: 700 !important; letter-spacing: 0.5px !important; cursor: pointer !important; outline: none !important; transition: background-color 0.2s ease, transform 0.1s ease !important;
                 `;
 
                 btn.addEventListener('mouseenter', () => { btn.style.backgroundColor = 'var(--btn-solid-hover)'; });
                 btn.addEventListener('mouseleave', () => { btn.style.backgroundColor = 'var(--btn-solid-bg)'; });
                 btn.addEventListener('mousedown', () => { btn.style.transform = 'scale(0.98)'; });
                 btn.addEventListener('mouseup', () => { btn.style.transform = 'scale(1)'; });
-                
-                btn.addEventListener('click', () => {
-                    forceDownload(file.download_url + '?raw=true', file.name);
-                });
+                btn.addEventListener('click', () => { forceDownload(file.download_url + '?raw=true', file.name); });
 
                 card.appendChild(title);
                 card.appendChild(btn);
@@ -326,17 +203,26 @@ const FOLDER_NAME = "Roblox";
         }
 
         // ==========================================
-        // SEARCH AND SORT - NOW ATTACHED PROPERLY
+        // CATEGORY TAB EVENT LISTENERS
         // ==========================================
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.getAttribute('data-category');
+                fetchConfigs();
+            });
+        });
 
-        // Attach the search listener after the HTML is loaded
+        // ==========================================
+        // SEARCH & SORT
+        // ==========================================
         document.getElementById('searchBar').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             const filtered = allConfigs.filter(file => file.name.toLowerCase().includes(query));
             renderConfigs(filtered);
         });
 
-        // Attach the sort listener
         document.getElementById('sortSelect').addEventListener('change', (e) => {
             const sortValue = e.target.value;
             const sorted = [...allConfigs].sort((a, b) => {
@@ -348,21 +234,19 @@ const FOLDER_NAME = "Roblox";
         });
 
         // ==========================================
-        // FORCE DOWNLOAD FUNCTION
+        // FORCE DOWNLOAD
         // ==========================================
         async function forceDownload(url, filename) {
             try {
                 const response = await fetch(url);
                 const blob = await response.blob();
                 const blobUrl = window.URL.createObjectURL(blob);
-                
                 const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = blobUrl;
                 a.download = filename;
                 document.body.appendChild(a);
                 a.click();
-                
                 window.URL.revokeObjectURL(blobUrl);
                 document.body.removeChild(a);
             } catch (error) {
@@ -371,7 +255,7 @@ const FOLDER_NAME = "Roblox";
             }
         }
 
-        // Run the fetch on load
+        // Initial fetch on page load (defaults to UE)
         fetchConfigs();
     </script>
 </body>

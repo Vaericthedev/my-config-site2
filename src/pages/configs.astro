@@ -10,11 +10,11 @@ const FOLDER_NAME = "Roblox";
     <meta charset="UTF-8" />
     <title>Vixix Configs</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
         /* 1. BACKGROUND */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             color: #ffffff;
             min-height: 100vh;
@@ -118,91 +118,66 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 6. THE CLEAN iOS GLASS BUTTON             */
+        /* 6. THE PERFECT APPLE iOS BUTTON           */
         /* ========================================= */
-        .download-btn {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px; /* Space between icon and text */
-            width: 100%;
-            height: 42px !important; /* Locked height */
-            min-height: 42px !important;
-            max-height: 42px !important;
-            box-sizing: border-box;
-            border-radius: 50px; /* iOS Pill */
+        .ios-download-btn {
+            /* Layout & Sizing */
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            height: 44px !important; /* Standard iOS tap height */
+            box-sizing: border-box !important;
+            padding: 0 !important;
+            margin: 0 !important;
+
+            /* iOS Blue Styling */
+            background: #007AFF !important; 
+            border: none !important;
+            border-radius: 22px !important; /* Perfect pill shape */
+            color: #ffffff !important;
             
-            /* Vibrant, clean glass gradient */
-            background: linear-gradient(135deg, rgba(88, 101, 242, 0.8) 0%, rgba(88, 101, 242, 0.4) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #ffffff;
+            /* Typography */
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            text-transform: none !important;
             
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase; /* Cleaner look */
-            letter-spacing: 0.5px;
-            font-family: 'Inter', sans-serif;
-            text-decoration: none;
-            overflow: hidden;
-            cursor: pointer;
-            outline: none;
-            
-            /* Soft glow + inner glass highlight */
-            box-shadow: 
-                0 8px 20px rgba(0, 0, 0, 0.2),
-                0 0 15px rgba(88, 101, 242, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Interaction */
+            cursor: pointer !important;
+            outline: none !important;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4) !important;
+            transition: all 0.2s ease !important;
         }
 
-        /* The Water Line Animation */
-        .download-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-            transition: all 0.6s ease;
+        /* Hover State */
+        .ios-download-btn:hover {
+            background: #0062CC !important;
+            transform: translateY(-1px) !important;
         }
 
-        .download-btn:hover {
-            background: linear-gradient(135deg, rgba(88, 101, 242, 1) 0%, rgba(88, 101, 242, 0.7) 100%);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 
-                0 10px 25px rgba(0, 0, 0, 0.3),
-                0 0 25px rgba(88, 101, 242, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            transform: translateY(-2px);
+        /* Click State (Tactile iOS feel) */
+        .ios-download-btn:active {
+            transform: scale(0.97) translateY(0) !important;
+            background: #0056b3 !important;
+            box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3) !important;
         }
 
-        .download-btn:hover::before {
-            left: 150%; /* Sweeps the shine across */
-        }
-
-        .download-btn:active {
-            transform: scale(0.96) translateY(0);
-            box-shadow: 0 0 10px rgba(88, 101, 242, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.4);
-        }
-
-        /* PERFECT ICON SIZING (Fixing the giant arrow problem) */
-        .download-btn svg {
-            width: 14px !important;
-            height: 14px !important;
-            min-width: 14px !important;
-            max-width: 14px !important;
-            min-height: 14px !important;
-            max-height: 14px !important;
+        /* CRITICAL: Force the SVG to be tiny and never break */
+        .ios-download-btn svg {
+            width: 16px !important;
+            height: 16px !important;
+            min-width: 16px !important;
+            min-height: 16px !important;
+            max-width: 16px !important;
+            max-height: 16px !important;
             flex-shrink: 0 !important;
-            transition: transform 0.3s ease;
-            stroke: currentColor;
-        }
-
-        .download-btn:hover svg {
-            transform: translateY(1px); /* Subtle drop animation */
+            display: block !important;
+            stroke: #ffffff !important;
+            stroke-width: 2.5 !important;
+            fill: none !important;
         }
 
         #loading { 
@@ -268,12 +243,13 @@ const FOLDER_NAME = "Roblox";
                 const title = document.createElement('h3');
                 title.textContent = file.name;
 
+                // Create the iOS Button
                 const btn = document.createElement('button');
-                btn.className = 'download-btn';
+                btn.className = 'ios-download-btn';
                 
-                // NEW: Clean, sized SVG Icon + Text
+                // We use a very simple SVG with inline sizes to guarantee it doesn't blow up
                 btn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>

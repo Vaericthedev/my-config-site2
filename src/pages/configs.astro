@@ -11,67 +11,75 @@ const FOLDER_NAME = "Roblox";
     <title>Vixix Configs</title>
     <style>
         /* ========================================= */
-        /* 1. THEME VARIABLES                        */
+        /* 1. THEME VARIABLES (WITH BACKGROUNDS)     */
         /* ========================================= */
         
-        /* Default Theme: Midnight (Current clean dark) */
+        /* Midnight (Default) - Dark forest/night */
         :root, body.theme-midnight {
             --bg: #0d1117;
-            --card-bg: #161b22;
+            --bg-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop');
+            --bg-overlay: rgba(13, 17, 23, 0.85);
+            --card-bg: rgba(22, 27, 34, 0.85);
             --border: #30363d;
             --text: #c9d1d9;
             --text-muted: #8b949e;
             --text-bright: #f0f6fc;
-            --input-bg: #161b22;
-            --btn-bg: #21262d;
-            --btn-hover: #30363d;
+            --input-bg: rgba(22, 27, 34, 0.9);
+            --btn-bg: rgba(33, 38, 45, 0.9);
+            --btn-hover: rgba(48, 54, 61, 0.9);
             --btn-text: #c9d1d9;
         }
 
-        /* Theme 2: Abyss (Pure Black OLED) */
+        /* Abyss - Deep space */
         body.theme-abyss {
             --bg: #000000;
-            --card-bg: #111111;
+            --bg-image: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=2093&auto=format&fit=crop');
+            --bg-overlay: rgba(0, 0, 0, 0.9);
+            --card-bg: rgba(17, 17, 17, 0.85);
             --border: #222222;
             --text: #eeeeee;
             --text-muted: #888888;
             --text-bright: #ffffff;
-            --input-bg: #111111;
-            --btn-bg: #222222;
-            --btn-hover: #333333;
+            --input-bg: rgba(17, 17, 17, 0.9);
+            --btn-bg: rgba(34, 34, 34, 0.9);
+            --btn-hover: rgba(51, 51, 51, 0.9);
             --btn-text: #eeeeee;
         }
 
-        /* Theme 3: Ghost (Clean Light) */
+        /* Ghost - Clean minimalist office */
         body.theme-ghost {
             --bg: #f6f8fa;
-            --card-bg: #ffffff;
+            --bg-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop');
+            --bg-overlay: rgba(246, 248, 250, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.85);
             --border: #d0d7de;
             --text: #24292f;
             --text-muted: #57606a;
             --text-bright: #000000;
-            --input-bg: #ffffff;
-            --btn-bg: #f6f8fa;
-            --btn-hover: #eaeef2;
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --btn-bg: rgba(246, 248, 250, 0.9);
+            --btn-hover: rgba(234, 238, 242, 0.9);
             --btn-text: #24292f;
         }
 
-        /* Theme 4: Vixix (Deep Purple Dark) */
+        /* Vixix - Abstract purple/cyberpunk */
         body.theme-vixix {
             --bg: #120f1c;
-            --card-bg: #1c1727;
+            --bg-image: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop');
+            --bg-overlay: rgba(18, 15, 28, 0.85);
+            --card-bg: rgba(28, 23, 39, 0.85);
             --border: #2d253a;
             --text: #e0d8f0;
             --text-muted: #8b7fa8;
             --text-bright: #ffffff;
-            --input-bg: #1c1727;
-            --btn-bg: #2d253a;
-            --btn-hover: #3e3350;
+            --input-bg: rgba(28, 23, 39, 0.9);
+            --btn-bg: rgba(45, 37, 58, 0.9);
+            --btn-hover: rgba(62, 51, 80, 0.9);
             --btn-text: #e0d8f0;
         }
 
         /* ========================================= */
-        /* 2. BASE RESET & LAYOUT                    */
+        /* 2. BASE RESET & BACKGROUND ENGINE         */
         /* ========================================= */
         *, *::before, *::after { box-sizing: border-box; }
         
@@ -85,12 +93,47 @@ const FOLDER_NAME = "Roblox";
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            transition: background-color 0.2s ease, color 0.2s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* The Blurred Background Layer */
+        #bg-layer {
+            position: fixed;
+            top: -20px;
+            left: -20px;
+            width: calc(100% + 40px);
+            height: calc(100% + 40px);
+            z-index: -2;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            filter: blur(10px); /* The blur effect */
+            transition: background-image 0.5s ease;
+        }
+
+        /* The Dark/Light Overlay Layer */
+        #bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-color: var(--bg-overlay);
+            transition: background-color 0.5s ease;
         }
 
         .container {
             width: 100%;
             max-width: 900px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         /* 3. HEADER */
@@ -101,7 +144,7 @@ const FOLDER_NAME = "Roblox";
             margin-bottom: 32px;
             border-bottom: 1px solid var(--border);
             padding-bottom: 16px;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.3s ease;
         }
         .header-text h1 { 
             margin: 0 0 8px 0; 
@@ -126,7 +169,8 @@ const FOLDER_NAME = "Roblox";
             font-size: 13px;
             outline: none;
             cursor: pointer;
-            transition: border-color 0.2s ease;
+            backdrop-filter: blur(8px);
+            transition: border-color 0.2s ease, background-color 0.3s ease;
         }
         .theme-switcher:focus {
             border-color: #58a6ff;
@@ -149,7 +193,8 @@ const FOLDER_NAME = "Roblox";
             font-family: inherit;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.2s ease, background-color 0.2s ease;
+            backdrop-filter: blur(8px);
+            transition: border-color 0.2s ease, background-color 0.3s ease;
         }
 
         input:focus, select:focus {
@@ -165,13 +210,15 @@ const FOLDER_NAME = "Roblox";
 
         .config-card {
             background-color: var(--card-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            transition: border-color 0.2s ease, background-color 0.2s ease;
+            transition: border-color 0.2s ease, background-color 0.3s ease;
             align-items: flex-start; 
         }
 
@@ -238,6 +285,10 @@ const FOLDER_NAME = "Roblox";
 </head>
 <body class="theme-midnight">
     
+    <!-- BACKGROUND LAYERS -->
+    <div id="bg-layer"></div>
+    <div id="bg-overlay"></div>
+
     <div class="container">
         <div class="header">
             <div class="header-text">
@@ -246,10 +297,10 @@ const FOLDER_NAME = "Roblox";
             </div>
             <!-- THEME SWITCHER -->
             <select id="themeSwitcher" class="theme-switcher">
-                <option value="theme-midnight">Midnight (Default)</option>
-                <option value="theme-abyss">Abyss (OLED)</option>
-                <option value="theme-ghost">Ghost (Light)</option>
-                <option value="theme-vixix">Vixix (Purple)</option>
+                <option value="theme-midnight">Midnight</option>
+                <option value="theme-abyss">Abyss</option>
+                <option value="theme-ghost">Ghost</option>
+                <option value="theme-vixix">Vixix</option>
             </select>
         </div>
 
@@ -269,15 +320,12 @@ const FOLDER_NAME = "Roblox";
         // ==========================================
         // THEME SWITCHER LOGIC
         // ==========================================
-        
-        // Check local storage for a saved theme on load
         const savedTheme = localStorage.getItem('vixix-theme');
         if (savedTheme) {
             document.body.className = savedTheme;
             document.getElementById('themeSwitcher').value = savedTheme;
         }
 
-        // Listen for changes on the dropdown
         document.getElementById('themeSwitcher').addEventListener('change', (e) => {
             const newTheme = e.target.value;
             document.body.className = newTheme;

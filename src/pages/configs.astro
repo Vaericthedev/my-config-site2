@@ -14,9 +14,8 @@ const FOLDER_NAME = "Roblox";
         *, *::before, *::after { box-sizing: border-box; }
         
         body {
-            /* Native system fonts make it look like a real app, not a template */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0d1117; /* Solid, clean dark background */
+            background-color: #0d1117; /* Clean, solid dark background */
             color: #c9d1d9;
             margin: 0;
             padding: 40px 20px;
@@ -50,7 +49,7 @@ const FOLDER_NAME = "Roblox";
             font-size: 14px; 
         }
 
-        /* 4. SEARCH AND SORT (Standard Form Inputs) */
+        /* 4. SEARCH AND SORT */
         .controls { 
             display: flex; 
             gap: 12px; 
@@ -71,7 +70,7 @@ const FOLDER_NAME = "Roblox";
         }
 
         input:focus, select:focus {
-            border-color: #58a6ff; /* Standard blue focus ring */
+            border-color: #58a6ff; 
         }
 
         /* 5. CONFIG GRID */
@@ -81,7 +80,7 @@ const FOLDER_NAME = "Roblox";
             gap: 16px;
         }
 
-        /* 6. MINIMAL CARDS */
+        /* 6. CLEAN CARDS (No glass blur, just solid dark mode) */
         .config-card {
             background-color: #161b22;
             border: 1px solid #30363d;
@@ -95,7 +94,7 @@ const FOLDER_NAME = "Roblox";
         }
 
         .config-card:hover {
-            border-color: #8b949e; /* Subtle highlight, no giant glowing shadow */
+            border-color: #8b949e; 
         }
 
         .config-card h3 { 
@@ -107,50 +106,67 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 7. SMALL, TRANSPARENT, MAN-MADE BUTTON    */
+        /* 7. THE SMALL TRANSPARENT BUTTON WITH SHINE */
         /* ========================================= */
         .download-btn {
-            /* Layout: Horizontal and compact */
-            display: inline-flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            position: relative;
+            display: inline-flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important; 
             
-            /* Sizing: Only as big as it needs to be */
-            width: auto;
-            padding: 6px 12px;
-            margin: 0;
+            /* Small sizing - Doesn't fill the card */
+            width: auto !important; 
+            height: auto !important;
+            padding: 8px 14px !important;
+            margin: 0 !important;
 
-            /* Completely transparent, just a border */
-            background-color: transparent;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #c9d1d9;
+            /* Completely Transparent */
+            background: transparent !important; 
+            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
+            border-radius: 8px !important; 
+            color: #ffffff !important;
             
-            /* Clean typography */
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 500;
-            text-decoration: none;
+            /* Clean small text */
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
             
             /* Interaction */
-            cursor: pointer;
-            outline: none;
-            transition: all 0.2s ease;
+            cursor: pointer !important;
+            outline: none !important;
+            overflow: hidden !important; /* Keeps the water line inside */
+            transition: all 0.2s ease !important;
         }
 
-        /* Hover: Simple and practical */
+        /* The Water Line Animation */
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: all 0.5s ease;
+        }
+
+        .download-btn:hover::before {
+            left: 150%; /* Sweeps the shine across */
+        }
+
+        /* Hover: Subtle frosted glass glow */
         .download-btn:hover {
-            background-color: #21262d;
-            color: #ffffff;
-            border-color: #8b949e;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
         }
 
-        /* Click: Slight press */
+        /* Click: Tactile press */
         .download-btn:active {
-            background-color: #161b22;
-            transform: scale(0.98);
+            transform: scale(0.97) !important;
         }
 
         /* Force the SVG to be tiny, white, and unbroken */
@@ -158,7 +174,9 @@ const FOLDER_NAME = "Roblox";
             width: 14px !important;
             height: 14px !important;
             min-width: 14px !important;
+            max-width: 14px !important;
             min-height: 14px !important;
+            max-height: 14px !important;
             flex-shrink: 0 !important;
             display: block !important;
             stroke: currentColor !important;

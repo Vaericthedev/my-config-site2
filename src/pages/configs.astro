@@ -10,10 +10,8 @@ const FOLDER_NAME = "Roblox";
     <meta charset="UTF-8" />
     <title>Vixix Configs</title>
     <style>
-        /* Import a clean, modern font */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
-        /* Deep, moody gradient background */
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
@@ -25,7 +23,6 @@ const FOLDER_NAME = "Roblox";
             justify-content: center;
         }
 
-        /* Main glass container */
         .glass-container {
             width: 100%;
             max-width: 900px;
@@ -53,7 +50,6 @@ const FOLDER_NAME = "Roblox";
             margin-bottom: 25px;
         }
 
-        /* Input and Sort controls */
         .controls { 
             display: flex; 
             gap: 15px; 
@@ -80,14 +76,12 @@ const FOLDER_NAME = "Roblox";
             box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
         }
 
-        /* The Grid of Configs */
         .config-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
-        /* Individual Frosted Glass Cards */
         .config-card {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(8px);
@@ -101,7 +95,6 @@ const FOLDER_NAME = "Roblox";
             justify-content: space-between;
         }
 
-        /* Hover effect for the cards */
         .config-card:hover {
             transform: translateY(-4px);
             background: rgba(255, 255, 255, 0.08);
@@ -112,14 +105,14 @@ const FOLDER_NAME = "Roblox";
         .config-card h3 { 
             margin: 0 0 20px 0; 
             word-break: break-all; 
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #ffffff;
             letter-spacing: -0.02em;
         }
 
         /* ========================================= */
-        /* THE ULTIMATE IOS GLASS DOWNLOAD BUTTON     */
+        /* FIXED IOS GLASS DOWNLOAD BUTTON            */
         /* ========================================= */
         .download-btn {
             position: relative;
@@ -128,25 +121,26 @@ const FOLDER_NAME = "Roblox";
             justify-content: center;
             gap: 8px;
             width: 100%;
-            padding: 12px 20px;
-            border-radius: 50px; /* Pill shape */
+            max-height: 42px; /* Prevents it from getting too tall */
+            padding: 10px 16px;
+            border-radius: 50px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ffffff;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             text-decoration: none;
-            overflow: hidden; /* Keeps the shine inside the button */
+            overflow: hidden;
             cursor: pointer;
             box-shadow: 
                 0 4px 15px rgba(0, 0, 0, 0.2), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.2); /* Inner glass highlight */
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* The "Water Line" / Shine Effect */
+        /* The Water Line Effect */
         .download-btn::before {
             content: '';
             position: absolute;
@@ -154,47 +148,37 @@ const FOLDER_NAME = "Roblox";
             left: -150%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.4) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: skewX(-25deg); /* Angled gleam */
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
             transition: all 0.6s ease;
         }
 
-        /* Hover State: Button glows and light sweeps across */
         .download-btn:hover {
             background: rgba(88, 101, 242, 0.3);
             border-color: rgba(88, 101, 242, 0.6);
-            box-shadow: 
-                0 0 25px rgba(88, 101, 242, 0.5), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 25px rgba(88, 101, 242, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
         }
 
         .download-btn:hover::before {
-            left: 150%; /* This moves the water line across */
+            left: 150%;
         }
 
-        /* Click State: Physical press down effect */
         .download-btn:active {
             transform: scale(0.96) translateY(0);
-            box-shadow: 
-                0 0 10px rgba(88, 101, 242, 0.4), 
-                inset 0 3px 6px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.3);
         }
 
-        /* SVG Icon styling */
+        /* FIXED: Forced small size for the SVG icon */
         .download-btn svg {
-            width: 16px;
+            width: 16px; 
             height: 16px;
+            flex-shrink: 0; /* Prevents it from stretching */
             transition: transform 0.3s ease;
         }
 
         .download-btn:hover svg {
-            transform: translateY(2px); /* Icon bounces down slightly */
+            transform: translateY(2px);
         }
 
         #loading { 
@@ -257,10 +241,11 @@ const FOLDER_NAME = "Roblox";
             configs.forEach(file => {
                 const card = document.createElement('div');
                 card.className = 'config-card';
-                // Added an SVG download icon inside the button
+                
+                // We changed the link to use our new forceDownload JavaScript function
                 card.innerHTML = `
                     <h3>${file.name}</h3>
-                    <a href="${file.download_url}" class="download-btn" download>
+                    <a href="#" class="download-btn" onclick="forceDownload('${file.download_url}', '${file.name}')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
@@ -271,6 +256,35 @@ const FOLDER_NAME = "Roblox";
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        // ===============================================
+        // NEW FUNCTION: Forces the browser to download
+        // ===============================================
+        async function forceDownload(url, filename) {
+            try {
+                // Fetch the file from GitHub
+                const response = await fetch(url);
+                // Convert it to a Blob (a raw file object)
+                const blob = await response.blob();
+                // Create a temporary internal URL for the file
+                const blobUrl = window.URL.createObjectURL(blob);
+                
+                // Create a hidden link to trigger the download
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename; // This forces the filename and download action
+                document.body.appendChild(a);
+                a.click(); // Simulate a click
+                document.body.removeChild(a);
+                
+                // Clean up memory
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                console.error('Download failed:', error);
+                // If the script fails (e.g., CORS issue), just open the file in a new tab as a fallback
+                window.open(url, '_blank');
+            }
         }
 
         function filterConfigs() {

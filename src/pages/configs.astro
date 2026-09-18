@@ -106,73 +106,45 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 7. THE BULLETPROOF iOS GLASS BUTTON       */
+        /* 7. BRAND NEW SIMPLE BUTTON                */
         /* ========================================= */
         .download-btn {
-            /* FORCE RESET - Kill the default white box */
+            /* Nuke all browser defaults */
             -webkit-appearance: none !important;
             appearance: none !important;
-            background: transparent !important;
-            border: none !important;
-            margin: 0 !important;
-            font-family: inherit !important;
-
-            /* iOS 18 Glass Styling */
-            display: inline-flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important;
+            
+            /* Simple, solid dark gray box */
+            background-color: #21262d !important;
+            border: 1px solid #30363d !important;
+            border-radius: 6px !important;
+            color: #c9d1d9 !important;
+            
+            /* Sizing */
+            display: inline-block !important;
             width: auto !important;
-            padding: 8px 16px !important;
-            border-radius: 9999px !important; /* Pill shape */
+            padding: 6px 12px !important;
+            margin: 0 !important;
             
-            /* The frosted glass look */
-            background-color: rgba(255, 255, 255, 0.08) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
-            
-            /* The 3D glass edge */
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
-            border-left: 1px solid rgba(255, 255, 255, 0.3) !important;
-            
-            color: #ffffff !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
+            /* Text */
+            font-family: inherit !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
             text-decoration: none !important;
             cursor: pointer !important;
             outline: none !important;
             
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-            transition: all 0.2s ease !important;
+            /* Simple interaction */
+            transition: all 0.1s ease !important;
         }
 
-        /* Hover */
         .download-btn:hover {
-            background-color: rgba(255, 255, 255, 0.15) !important;
-            border-color: rgba(255, 255, 255, 0.4) !important;
-            transform: scale(1.02) !important;
+            background-color: #30363d !important;
+            color: #ffffff !important;
+            border-color: #8b949e !important;
         }
 
-        /* Click */
         .download-btn:active {
-            transform: scale(0.96) !important;
-        }
-
-        /* Force the SVG to be tiny and unbroken */
-        .download-btn svg {
-            width: 14px !important;
-            height: 14px !important;
-            min-width: 14px !important;
-            max-width: 14px !important;
-            min-height: 14px !important;
-            max-height: 14px !important;
-            flex-shrink: 0 !important;
-            display: block !important;
-            stroke: currentColor !important;
-            stroke-width: 2.5 !important;
-            fill: none !important;
+            background-color: #161b22 !important;
         }
 
         #loading { 
@@ -240,20 +212,12 @@ const FOLDER_NAME = "Roblox";
                 const title = document.createElement('h3');
                 title.textContent = file.name;
 
-                // Create the button
                 const btn = document.createElement('button');
-                btn.type = 'button'; // Prevents default form behavior
+                btn.type = 'button';
                 btn.className = 'download-btn';
                 
-                // Clean SVG + Text
-                btn.innerHTML = `
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    <span>Download</span>
-                `;
+                // JUST TEXT. NO SVG. NOTHING TO BREAK.
+                btn.textContent = 'Download'; 
                 
                 btn.addEventListener('click', () => {
                     forceDownload(file.download_url + '?raw=true', file.name);

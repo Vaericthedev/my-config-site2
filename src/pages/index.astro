@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <!-- CRITICAL: This meta tag makes mobile devices scale properly -->
+    <!-- CRITICAL: Makes mobile scale properly -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loading Vixix Configs...</title>
     <style>
@@ -23,14 +23,13 @@
             animation: bg-pan 15s ease-in-out infinite alternate;
             color: #ffffff;
             margin: 0;
-            /* 100dvh fixes mobile address bar issues */
             min-height: 100dvh; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            padding: 20px; /* Safe padding for small screens */
+            padding: 20px; 
         }
 
         body::before {
@@ -49,7 +48,6 @@
         /* Click to Enter Button - Fluid Size */
         #enterBtn {
             font-family: 'Poppins', sans-serif;
-            /* clamp(min, preferred, max) makes it scale perfectly */
             font-size: clamp(1rem, 4vw, 1.5rem);
             font-weight: 600;
             color: #ffffff;
@@ -62,7 +60,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
             animation: pulseBtn 2s infinite;
-            white-space: nowrap; /* Prevents text from wrapping on small screens */
+            white-space: nowrap;
         }
 
         #enterBtn:hover {
@@ -83,22 +81,18 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            text-align: center; /* Keeps the typed text centered */
+            text-align: center;
         }
 
         .loader-text {
-            /* Fluid font size: Min 2rem, scales with screen, Max 5rem */
             font-size: clamp(2rem, 8vw, 5rem); 
             font-weight: 800;
             letter-spacing: 0.05em;
             color: #ffffff;
-            text-shadow: 
-                0 0 10px rgba(59, 130, 246, 0.8),
-                0 0 20px rgba(59, 130, 246, 0.6),
-                0 0 40px rgba(59, 130, 246, 0.4);
-            animation: jump 1.2s ease-in-out infinite;
+            /* The jumping glow animation */
+            animation: jumpGlow 1.2s ease-in-out infinite;
             line-height: 1.2;
-            word-break: break-word; /* Prevents overflow on tiny screens */
+            word-break: break-word;
         }
 
         .cursor {
@@ -112,7 +106,6 @@
             vertical-align: middle;
         }
 
-        /* Mute Button */
         #muteBtn {
             position: fixed;
             bottom: 20px;
@@ -136,14 +129,21 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        @keyframes jump {
+        /* The core animation: jump + glow */
+        @keyframes jumpGlow {
             0%, 100% {
                 transform: translateY(0);
-                text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4);
+                text-shadow: 
+                    0 0 10px rgba(59, 130, 246, 0.8),
+                    0 0 20px rgba(59, 130, 246, 0.6),
+                    0 0 40px rgba(59, 130, 246, 0.4);
             }
             50% {
                 transform: translateY(-15px); 
-                text-shadow: 0 0 20px rgba(59, 130, 246, 1), 0 0 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.6);
+                text-shadow: 
+                    0 0 20px rgba(59, 130, 246, 1),
+                    0 0 40px rgba(59, 130, 246, 0.8),
+                    0 0 60px rgba(59, 130, 246, 0.6);
             }
         }
 
@@ -160,20 +160,16 @@
 </head>
 <body>
     
-    <!-- Click to Enter Button -->
     <button id="enterBtn">Click to Enter</button>
 
-    <!-- Loading Text Container -->
     <div class="loader-container" id="loaderContainer">
         <div class="loader-text" id="loaderText">
             <span id="textContent"></span><span class="cursor"></span>
         </div>
     </div>
 
-    <!-- Mute Button -->
     <button id="muteBtn">🔇</button>
 
-    <!-- The Audio File -->
     <audio id="introMusic" src="/intro-music.mp3" loop></audio>
 
     <script>

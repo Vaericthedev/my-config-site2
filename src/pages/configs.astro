@@ -118,24 +118,26 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 6. THE PERFECT APPLE iOS BUTTON           */
+        /* 6. CLEAN TRANSPARENT HORIZONTAL BUTTON    */
         /* ========================================= */
         .ios-download-btn {
-            /* Layout & Sizing */
-            display: inline-flex !important;
+            /* Force Horizontal Layout */
+            display: flex !important;
+            flex-direction: row !important;
             align-items: center !important;
             justify-content: center !important;
-            gap: 8px !important;
+            gap: 8px !important; /* Space between icon and text */
+            
+            /* Sizing */
             width: 100% !important;
-            height: 44px !important; /* Standard iOS tap height */
+            height: 44px !important; 
             box-sizing: border-box !important;
             padding: 0 !important;
-            margin: 0 !important;
 
-            /* iOS Blue Styling */
-            background: #007AFF !important; 
-            border: none !important;
-            border-radius: 22px !important; /* Perfect pill shape */
+            /* Completely Transparent Glass */
+            background: transparent !important; 
+            border: 1px solid rgba(255, 255, 255, 0.25) !important; /* Subtle white border */
+            border-radius: 22px !important; 
             color: #ffffff !important;
             
             /* Typography */
@@ -143,35 +145,33 @@ const FOLDER_NAME = "Roblox";
             font-size: 15px !important;
             font-weight: 600 !important;
             text-decoration: none !important;
-            text-transform: none !important;
             
             /* Interaction */
             cursor: pointer !important;
             outline: none !important;
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4) !important;
             transition: all 0.2s ease !important;
         }
 
-        /* Hover State */
+        /* Hover: Slight frosted glass appearance */
         .ios-download-btn:hover {
-            background: #0062CC !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
             transform: translateY(-1px) !important;
         }
 
-        /* Click State (Tactile iOS feel) */
+        /* Click: Tactile press */
         .ios-download-btn:active {
-            transform: scale(0.97) translateY(0) !important;
-            background: #0056b3 !important;
-            box-shadow: 0 2px 6px rgba(0, 122, 255, 0.3) !important;
+            transform: scale(0.98) translateY(0) !important;
+            background: rgba(255, 255, 255, 0.05) !important;
         }
 
-        /* CRITICAL: Force the SVG to be tiny and never break */
+        /* Force the SVG to stay tiny, white, and unbroken */
         .ios-download-btn svg {
             width: 16px !important;
             height: 16px !important;
             min-width: 16px !important;
-            min-height: 16px !important;
             max-width: 16px !important;
+            min-height: 16px !important;
             max-height: 16px !important;
             flex-shrink: 0 !important;
             display: block !important;
@@ -243,11 +243,9 @@ const FOLDER_NAME = "Roblox";
                 const title = document.createElement('h3');
                 title.textContent = file.name;
 
-                // Create the iOS Button
                 const btn = document.createElement('button');
                 btn.className = 'ios-download-btn';
                 
-                // We use a very simple SVG with inline sizes to guarantee it doesn't blow up
                 btn.innerHTML = `
                     <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>

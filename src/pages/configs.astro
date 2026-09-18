@@ -26,8 +26,8 @@ const FOLDER_NAME = "Roblox";
             --text-bright: #f0f6fc;
             --input-bg: rgba(22, 27, 34, 0.9);
             
-            /* New Solid Button Colors */
-            --btn-solid-bg: #5865F2; /* Discord Blurple */
+            /* Solid Button Colors */
+            --btn-solid-bg: #5865F2; 
             --btn-solid-hover: #4752c4;
             --btn-solid-text: #ffffff;
         }
@@ -44,10 +44,9 @@ const FOLDER_NAME = "Roblox";
             --text-bright: #ffffff;
             --input-bg: rgba(17, 17, 17, 0.8);
             
-            /* New Solid Button Colors */
-            --btn-solid-bg: #00e5ff; /* Neon Cyan */
+            --btn-solid-bg: #00e5ff; 
             --btn-solid-hover: #00b8cc;
-            --btn-solid-text: #000000; /* Black text for contrast on bright cyan */
+            --btn-solid-text: #000000; 
         }
 
         /* Ghost */
@@ -62,8 +61,7 @@ const FOLDER_NAME = "Roblox";
             --text-bright: #000000;
             --input-bg: rgba(255, 255, 255, 0.8);
             
-            /* New Solid Button Colors */
-            --btn-solid-bg: #24292f; /* Dark Gray/Black */
+            --btn-solid-bg: #24292f; 
             --btn-solid-hover: #000000;
             --btn-solid-text: #ffffff;
         }
@@ -80,8 +78,7 @@ const FOLDER_NAME = "Roblox";
             --text-bright: #ffffff;
             --input-bg: rgba(28, 23, 39, 0.9);
             
-            /* New Solid Button Colors */
-            --btn-solid-bg: #8b5cf6; /* Vibrant Purple */
+            --btn-solid-bg: #8b5cf6; 
             --btn-solid-hover: #7c3aed;
             --btn-solid-text: #ffffff;
         }
@@ -150,19 +147,9 @@ const FOLDER_NAME = "Roblox";
             margin-bottom: 32px;
             border-bottom: 1px solid var(--border);
             padding-bottom: 16px;
-            transition: border-color 0.3s ease;
         }
-        .header-text h1 { 
-            margin: 0 0 8px 0; 
-            font-size: 24px; 
-            font-weight: 600;
-            color: var(--text-bright); 
-        }
-        .header-text p { 
-            margin: 0; 
-            color: var(--text-muted); 
-            font-size: 14px; 
-        }
+        .header-text h1 { margin: 0 0 8px 0; font-size: 24px; font-weight: 600; color: var(--text-bright); }
+        .header-text p { margin: 0; color: var(--text-muted); font-size: 14px; }
 
         /* 4. THEME SWITCHER */
         .theme-switcher {
@@ -175,20 +162,10 @@ const FOLDER_NAME = "Roblox";
             font-size: 13px;
             outline: none;
             cursor: pointer;
-            backdrop-filter: blur(8px);
-            transition: border-color 0.2s ease, background-color 0.3s ease;
-        }
-        .theme-switcher:focus {
-            border-color: #58a6ff;
         }
 
         /* 5. SEARCH AND SORT CONTROLS */
-        .controls { 
-            display: flex; 
-            gap: 12px; 
-            margin-bottom: 24px; 
-        }
-        
+        .controls { display: flex; gap: 12px; margin-bottom: 24px; }
         input, select {
             flex: 1;
             padding: 10px 14px;
@@ -199,12 +176,6 @@ const FOLDER_NAME = "Roblox";
             font-family: inherit;
             font-size: 14px;
             outline: none;
-            backdrop-filter: blur(8px);
-            transition: border-color 0.2s ease, background-color 0.3s ease;
-        }
-
-        input:focus, select:focus {
-            border-color: #58a6ff; 
         }
 
         /* 6. CONFIG GRID & CARDS */
@@ -224,13 +195,11 @@ const FOLDER_NAME = "Roblox";
             display: flex;
             flex-direction: column;
             gap: 16px;
-            transition: border-color 0.2s ease, background-color 0.3s ease;
-            align-items: stretch; /* Changed to stretch so the button fills width */
+            transition: border-color 0.2s ease;
+            align-items: stretch; 
         }
 
-        .config-card:hover {
-            border-color: var(--text-muted); 
-        }
+        .config-card:hover { border-color: var(--text-muted); }
 
         .config-card h3 { 
             margin: 0; 
@@ -241,57 +210,52 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 7. THE NEW SOLID PILL BUTTON              */
+        /* 7. THE NEW SOLID PILL BUTTON (RENAMED)    */
         /* ========================================= */
-        .download-btn {
-            /* Nuke all browser defaults */
+        .action-btn {
+            /* Nuke everything */
             -webkit-appearance: none !important;
             appearance: none !important;
+            background: transparent;
+            margin: 0 !important;
+            font-family: inherit !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            outline: none !important;
             
-            /* Full width, solid pill shape */
+            /* Force Exact Shape & Size */
             display: block !important;
             width: 100% !important;
-            padding: 12px 20px !important;
-            margin: 0 !important;
+            padding: 14px 20px !important;
             border-radius: 9999px !important; /* Perfect Pill */
             border: none !important;
+            text-align: center !important;
             
-            /* Solid background color from theme */
+            /* Force Colors */
             background-color: var(--btn-solid-bg) !important;
             color: var(--btn-solid-text) !important;
             
-            /* Bold, centered text */
-            font-family: inherit !important;
+            /* Force Text */
             font-size: 14px !important;
             font-weight: 700 !important;
-            text-align: center !important;
-            text-decoration: none !important;
+            letter-spacing: 0.5px !important;
             
-            /* Interaction */
-            cursor: pointer !important;
-            outline: none !important;
             transition: background-color 0.2s ease, transform 0.1s ease !important;
         }
 
-        .download-btn:hover {
+        .action-btn:hover {
             background-color: var(--btn-solid-hover) !important;
         }
 
-        .download-btn:active {
+        .action-btn:active {
             transform: scale(0.98) !important;
         }
 
-        #loading { 
-            color: var(--text-muted); 
-            font-size: 14px;
-            text-align: center;
-            padding: 20px;
-        }
+        #loading { color: var(--text-muted); font-size: 14px; text-align: center; padding: 20px; }
     </style>
 </head>
 <body class="theme-midnight">
     
-    <!-- BACKGROUND LAYERS -->
     <div id="bg-layer"></div>
     <div id="bg-overlay"></div>
 
@@ -301,7 +265,6 @@ const FOLDER_NAME = "Roblox";
                 <h1>Roblox Configs</h1>
                 <p>Download the latest premium configs below.</p>
             </div>
-            <!-- THEME SWITCHER -->
             <select id="themeSwitcher" class="theme-switcher">
                 <option value="theme-midnight">Midnight</option>
                 <option value="theme-abyss">Abyss</option>
@@ -323,9 +286,6 @@ const FOLDER_NAME = "Roblox";
     </div>
 
     <script>
-        // ==========================================
-        // THEME SWITCHER LOGIC
-        // ==========================================
         const savedTheme = localStorage.getItem('vixix-theme');
         if (savedTheme) {
             document.body.className = savedTheme;
@@ -338,9 +298,6 @@ const FOLDER_NAME = "Roblox";
             localStorage.setItem('vixix-theme', newTheme);
         });
 
-        // ==========================================
-        // CONFIG FETCHING & RENDERING
-        // ==========================================
         const API_URL = `https://api.github.com/repos/Vaericthedev/my-config-site2/contents/Roblox`;
         let allConfigs = [];
 
@@ -379,8 +336,9 @@ const FOLDER_NAME = "Roblox";
 
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'download-btn';
-                // Just the text "Download", no SVG icon
+                // USING THE NEW CLASS NAME HERE
+                btn.className = 'action-btn';
+                // JUST TEXT, NO ICON
                 btn.textContent = 'Download'; 
                 
                 btn.addEventListener('click', () => {

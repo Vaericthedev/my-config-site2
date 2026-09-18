@@ -5,6 +5,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <!-- CRITICAL: This meta tag makes mobile devices scale properly -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loading Vixix Configs...</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap');
@@ -21,12 +23,14 @@
             animation: bg-pan 15s ease-in-out infinite alternate;
             color: #ffffff;
             margin: 0;
-            height: 100vh;
+            /* 100dvh fixes mobile address bar issues */
+            min-height: 100dvh; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            padding: 20px; /* Safe padding for small screens */
         }
 
         body::before {
@@ -42,21 +46,23 @@
             -webkit-mask-image: radial-gradient(circle at center, transparent 20%, black 80%);
         }
 
-        /* Click to Enter Button */
+        /* Click to Enter Button - Fluid Size */
         #enterBtn {
             font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem;
+            /* clamp(min, preferred, max) makes it scale perfectly */
+            font-size: clamp(1rem, 4vw, 1.5rem);
             font-weight: 600;
             color: #ffffff;
             background: rgba(59, 130, 246, 0.2);
             border: 1px solid rgba(59, 130, 246, 0.5);
-            padding: 15px 40px;
+            padding: clamp(12px, 3vw, 18px) clamp(24px, 6vw, 50px);
             border-radius: 50px;
             cursor: pointer;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
             animation: pulseBtn 2s infinite;
+            white-space: nowrap; /* Prevents text from wrapping on small screens */
         }
 
         #enterBtn:hover {
@@ -70,15 +76,19 @@
             50% { transform: scale(1.03); }
         }
 
-        /* Container for the loading text (hidden initially) */
+        /* Container for the loading text */
         .loader-container {
-            display: none; /* Hidden until they click Enter */
+            display: none; 
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-align: center; /* Keeps the typed text centered */
         }
 
         .loader-text {
-            font-size: 3rem; 
+            /* Fluid font size: Min 2rem, scales with screen, Max 5rem */
+            font-size: clamp(2rem, 8vw, 5rem); 
             font-weight: 800;
             letter-spacing: 0.05em;
             color: #ffffff;
@@ -87,6 +97,8 @@
                 0 0 20px rgba(59, 130, 246, 0.6),
                 0 0 40px rgba(59, 130, 246, 0.4);
             animation: jump 1.2s ease-in-out infinite;
+            line-height: 1.2;
+            word-break: break-word; /* Prevents overflow on tiny screens */
         }
 
         .cursor {
@@ -97,6 +109,7 @@
             margin-left: 8px;
             box-shadow: 0 0 15px #3b82f6;
             animation: blink 1s step-end infinite;
+            vertical-align: middle;
         }
 
         /* Mute Button */
@@ -173,24 +186,16 @@
         let charIndex = 0;
         const textToType = "Vixix Configs";
 
-        // Set music volume low (lwk)
         music.volume = 0.3; 
 
-        // Handle the "Click to Enter" button
         enterBtn.addEventListener('click', () => {
-            // 1. Play the music
             music.play().catch(error => console.log("Audio play failed:", error));
-            
-            // 2. Hide the button and show the loader
             enterBtn.style.display = 'none';
             loaderContainer.style.display = 'flex';
-            muteBtn.textContent = '🔊'; // Change icon to unmuted
-            
-            // 3. Start typing
+            muteBtn.textContent = '🔊'; 
             typeWriter();
         });
 
-        // Handle Mute/Unmute
         muteBtn.addEventListener('click', () => {
             if (music.paused) {
                 music.play();
@@ -208,7 +213,6 @@
                 setTimeout(typeWriter, 120);
             } else {
                 setTimeout(() => {
-                    // Fade out music slightly before redirecting
                     let fadeOut = setInterval(() => {
                         if (music.volume > 0.05) {
                             music.volume -= 0.05;
@@ -218,7 +222,6 @@
                         }
                     }, 100);
 
-                    // Redirect after 1.5 seconds
                     setTimeout(() => {
                         window.location.href = '/configs';
                     }, 1500);

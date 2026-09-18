@@ -131,6 +131,7 @@ const REPO_NAME = "my-config-site2";
         // ==========================================
         const GITHUB_USERNAME = "Vaericthedev";
         const REPO_NAME = "my-config-site2";
+        const PARENT_FOLDER = "Roblox"; // <--- THIS WAS THE MISSING PART
         
         let allConfigs = [];
         let currentCategory = 'UE'; // Default category
@@ -144,8 +145,8 @@ const REPO_NAME = "my-config-site2";
             gridEl.innerHTML = ''; // Clear grid while loading
 
             try {
-                // Directly fetch from GitHub API using the current category folder
-                const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${currentCategory}`;
+                // FIXED: Now includes the parent "Roblox" folder in the path
+                const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PARENT_FOLDER}/${currentCategory}`;
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 

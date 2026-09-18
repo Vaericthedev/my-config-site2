@@ -1,0 +1,149 @@
+this was all coded by nhal_vmax
+
+
+note: this wasn't coded with ai.
+
+cya.
+
+
+
+local repo = "https://raw.githubusercontent.com/mstudio45/LinoriaLib/main/"
+
+local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
+local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
+
+local Options = Library.Options
+local Toggles = Library.Toggles
+
+local RS = game:GetService("RunService")
+local P = game:GetService("Players")
+local LP = P.LocalPlayer
+local V = CFrame.new(9000, 9000, 9000)
+local T = {}
+local spamTick = false
+
+local Window = Library:CreateWindow({
+	Title = "Fatality.cc Private",
+	Center = true,
+	AutoShow = true,
+	Resizable = true,
+	ShowCustomCursor = true,
+	NotifySide = "Left",
+	TabPadding = 8,
+	MenuFadeTime = 0.2
+})
+
+local Tabs = {
+	Main = Window:AddTab("Main"),
+	Misc = Window:AddTab("Misc"),
+	["UI Settings"] = Window:AddTab("UI Settings"),
+}
+
+local MovementBox = Tabs.Main:AddLeftGroupbox("Movement")
+
+MovementBox:AddToggle("VoidLua", { Text = "Void (Lua)", Default = false })
+MovementBox:AddToggle("Voidspam", { Text = "Voidspam", Default = false })
+MovementBox:AddInput("VoidspamSpeed", { Default = "0.1", Numeric = true, Text = "Voidspam Speed" })
+
+local OrbitBox = Tabs.Main:AddRightGroupbox("Orbit")
+
+OrbitBox:AddToggle("OrbitEnabled", { Text = "Enabled", Default = false })
+OrbitBox:AddSlider("OrbitDistance", { Text = "Orbit Radius", Default = 7, Min = 0, Max = 1000, Rounding = 0 })
+OrbitBox:AddSlider("OrbitSpeed", { Text = "Speed", Default = 5, Min = 0, Max = 20, Rounding = 0 })
+
+local CombatBox = Tabs.Misc:AddLeftGroupbox("Combat")
+
+CombatBox:AddToggle("SlingBypass", { Text = "Sling bypass", Default = false })
+CombatBox:AddToggle("AntiReload", { Text = "Anti Reload", Default = false })
+
+local rParams = RaycastParams.new()
+rParams.FilterType = Enum.RaycastFilterType.Exclude
+rParams.FilterDescendantsInstances = {LP.Character}
+
+workspace.ChildAdded:Connect(function(o)
+    if o.Name == "CoreProjectile" or (o:IsA("BasePart") and o.Name == "Part") then
+        task.defer(function()
+            if o.Parent and (o.Name == "CoreProjectile" or o.AssemblyLinearVelocity.Magnitude > 50) then
+                T[o] = {lastPos = o.Position}
+            end
+        end)
+    end
+end)
+
+workspace.ChildRemoved:Connect(function(o) T[o] = nil end)
+
+local function getClosestPlayer()
+    local closest, dist = nil, math.huge
+    for _, v in pairs(P:GetPlayers()) do
+        if v ~= LP and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+            local magnitude = (LP.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
+            if magnitude < dist then
+                dist = magnitude
+                closest = v.Character.HumanoidRootPart
+            end
+        end
+    end
+    return closest
+end
+
+RS.Heartbeat:Connect(function()
+    if Toggles.SlingBypass.Value then
+        for _, v in pairs(P:GetPlayers()) do
+            if v ~= LP and v.Character then
+                local hrp = v.Character:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    hrp.CFrame = V
+                    hrp.AssemblyLinearVelocity = Vector3.zero
+                    hrp.AssemblyAngularVelocity = Vector3.zero
+                end
+            end
+        end
+    end
+
+    if LP.Character and LP.Character:FindFirstChild("HumanoidRootPart") then
+        local hrp = LP.Character.HumanoidRootPart
+        
+        if Toggles.OrbitEnabled.Value then
+            local target = getClosestPlayer()
+            if target then
+                local radius = Options.OrbitDistance.Value
+                local speed = Options.OrbitSpeed.Value
+                local angle = tick() * speed
+                local offset = Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+                hrp.CFrame = CFrame.new(target.Position + offset)
+            end
+        end
+        
+        if Toggles.VoidLua.Value then
+            hrp.CFrame = hrp.CFrame * CFrame.new(0, math.huge, 0)
+        end
+
+        if Toggles.Voidspam.Value then
+            spamTick = not spamTick
+            local height = spamTick and math.huge or 1000000000000000
+            hrp.CFrame = hrp.CFrame * CFrame.new(0, height, 0)
+            
+            local waitTime = tonumber(Options.VoidspamSpeed.Value) or 0.1
+            task.wait(waitTime)
+        end
+
+        if Toggles.AntiReload.Value then
+            for _, v in pairs(LP.Character:GetChildren()) do
+                if v:IsA("Tool") and v:FindFirstChild("Reload") then
+                    v.Reload:Destroy()
+                end
+            end
+        end
+    end
+end)
+
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({ "MenuKeybind" })
+ThemeManager:SetFolder("FatalityPrivate")
+SaveManager:SetFolder("FatalityPrivate/Main")
+SaveManager:BuildConfigSection(Tabs["UI Settings"])
+ThemeManager:ApplyToTab(Tabs["UI Settings"])
+SaveManager:LoadAutoloadConfig()

@@ -106,39 +106,69 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 7. SMALL TRANSPARENT BUTTON (NO WATER LINE) */
+        /* 7. THE CLEAN TRANSPARENT BUTTON           */
         /* ========================================= */
         .download-btn {
-            position: relative;
+            /* Layout: Horizontal and compact */
             display: inline-flex;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            
+            /* Sizing: Only as big as it needs to be */
             width: auto;
-            padding: 8px 14px;
+            padding: 6px 12px;
             margin: 0;
+
+            /* Completely transparent, just a subtle border */
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            color: #c9d1d9;
+            
+            /* Clean typography */
+            font-family: inherit;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
             text-decoration: none;
+            
+            /* Interaction */
             cursor: pointer;
             outline: none;
             transition: all 0.2s ease;
         }
 
-        /* Hover: Subtle background change */
+        /* Hover: Subtle and classy highlight */
         .download-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
         }
 
         /* Click: Tactile press */
         .download-btn:active {
             transform: scale(0.97);
+        }
+
+        /* Force the SVG to be tiny, clean, and unbroken */
+        .download-btn svg {
+            width: 14px !important;
+            height: 14px !important;
+            min-width: 14px !important;
+            max-width: 14px !important;
+            min-height: 14px !important;
+            max-height: 14px !important;
+            flex-shrink: 0 !important;
+            display: block !important;
+            stroke: currentColor !important;
+            stroke-width: 2 !important;
+            fill: none !important;
+            transition: transform 0.2s ease;
+        }
+
+        .download-btn:hover svg {
+            transform: translateY(1px);
         }
 
         #loading { 
@@ -208,7 +238,16 @@ const FOLDER_NAME = "Roblox";
 
                 const btn = document.createElement('button');
                 btn.className = 'download-btn';
-                btn.textContent = 'Download ⬇️'; 
+                
+                // CLEAN SVG ICON + TEXT
+                btn.innerHTML = `
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download</span>
+                `;
                 
                 btn.addEventListener('click', () => {
                     forceDownload(file.download_url + '?raw=true', file.name);

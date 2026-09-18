@@ -112,7 +112,7 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* FIXED IOS GLASS DOWNLOAD BUTTON            */
+        /* FIXED: BULLETPROOF BUTTON SIZE            */
         /* ========================================= */
         .download-btn {
             position: relative;
@@ -121,8 +121,12 @@ const FOLDER_NAME = "Roblox";
             justify-content: center;
             gap: 8px;
             width: 100%;
-            max-height: 42px; /* Prevents it from getting too tall */
-            padding: 10px 16px;
+            height: 42px; /* Force exact height */
+            min-height: 42px;
+            max-height: 42px;
+            flex-grow: 0; /* STOP flexbox from stretching it! */
+            flex-shrink: 0;
+            padding: 0 16px;
             border-radius: 50px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -134,13 +138,10 @@ const FOLDER_NAME = "Roblox";
             text-decoration: none;
             overflow: hidden;
             cursor: pointer;
-            box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.2), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* The Water Line Effect */
         .download-btn::before {
             content: '';
             position: absolute;
@@ -169,11 +170,16 @@ const FOLDER_NAME = "Roblox";
             box-shadow: 0 0 10px rgba(88, 101, 242, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.3);
         }
 
-        /* FIXED: Forced small size for the SVG icon */
+        /* FIXED: Force SVG to be small no matter what */
         .download-btn svg {
-            width: 16px; 
-            height: 16px;
-            flex-shrink: 0; /* Prevents it from stretching */
+            width: 16px !important;
+            height: 16px !important;
+            min-width: 16px;
+            max-width: 16px;
+            min-height: 16px;
+            max-height: 16px;
+            display: block;
+            flex-shrink: 0;
             transition: transform 0.3s ease;
         }
 
@@ -216,11 +222,11 @@ const FOLDER_NAME = "Roblox";
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                allConfigs = data.filter(file => 
-                    file.name.endsWith('.json') || 
-                    file.name.endsWith('.cfg') || 
-                    file.name.endsWith('.txt')
-                );
+                // FIXED: Make the file extension check lowercase so it catches .CFG, .JSON, etc.
+                allConfigs = data.filter(file => {
+                    const name = file.name.toLowerCase();
+                    return name.endsWith('.json') || name.endsWith('.cfg') || name.endsWith('.txt');
+                });
 
                 document.getElementById('loading').style.display = 'none';
                 renderConfigs(allConfigs);
@@ -242,47 +248,51 @@ const FOLDER_NAME = "Roblox";
                 const card = document.createElement('div');
                 card.className = 'config-card';
                 
-                // We changed the link to use our new forceDownload JavaScript function
+                // Added ?raw=true to the URL which helps GitHub download the file properly
+                const downloadUrl = file.download_url + '?raw=true';
+
                 card.innerHTML = `
                     <h3>${file.name}</h3>
-                    <a href="#" class="download-btn" onclick="forceDownload('${file.download_url}', '${file.name}')">
+                    <a href="#" class="download-btn" onclick="forceDownload('${downloadUrl}', '${file.name}'); return false;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7 10 12 15 17 10"></polyline>
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
-                        Download
+                        <span>Download</span>
                     </a>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // ===============================================
-        // NEW FUNCTION: Forces the browser to download
-        // ===============================================
+        // FIXED: Bulletproof download function
         async function forceDownload(url, filename) {
             try {
-                // Fetch the file from GitHub
+                // 1. Fetch the file from GitHub
                 const response = await fetch(url);
-                // Convert it to a Blob (a raw file object)
+                if (!response.ok) throw new Error("Network response was not ok");
+                
+                // 2. Turn it into a raw file object (Blob)
                 const blob = await response.blob();
-                // Create a temporary internal URL for the file
+                
+                // 3. Create a temporary URL for that object
                 const blobUrl = window.URL.createObjectURL(blob);
                 
-                // Create a hidden link to trigger the download
+                // 4. Create an invisible link and click it
                 const a = document.createElement('a');
+                a.style.display = 'none';
                 a.href = blobUrl;
-                a.download = filename; // This forces the filename and download action
+                a.download = filename; // Forces the file to download instead of opening
                 document.body.appendChild(a);
-                a.click(); // Simulate a click
-                document.body.removeChild(a);
+                a.click();
                 
-                // Clean up memory
+                // 5. Clean up
                 window.URL.revokeObjectURL(blobUrl);
+                document.body.removeChild(a);
             } catch (error) {
-                console.error('Download failed:', error);
-                // If the script fails (e.g., CORS issue), just open the file in a new tab as a fallback
+                console.error('Download failed, opening in new tab:', error);
+                // Fallback: If the script fails, just open the raw link in a new tab
                 window.open(url, '_blank');
             }
         }

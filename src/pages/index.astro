@@ -7,11 +7,14 @@
     <meta charset="UTF-8" />
     <title>Loading Vixix Configs...</title>
     <style>
+        /* Import Poppins - a clean, modern, rounded font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap');
+
         *, *::before, *::after { box-sizing: border-box; }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0d1117; /* Dark background */
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0a0f1a; /* Deep navy blue background */
             color: #ffffff;
             margin: 0;
             height: 100vh;
@@ -24,27 +27,27 @@
 
         /* Container for the loading text */
         .loader-text {
-            font-size: 2.5rem; /* Larger text for the main effect */
+            font-size: 3rem; /* Bigger, bolder text */
             font-weight: 800;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             color: #ffffff;
-            /* The main glow effect using text-shadow */
+            /* The blue neon glow */
             text-shadow: 
-                0 0 10px rgba(88, 101, 242, 0.8),
-                0 0 20px rgba(88, 101, 242, 0.6),
-                0 0 40px rgba(88, 101, 242, 0.4);
-            /* Set the animation for the jumping effect */
-            animation: jump 1s ease-in-out infinite;
+                0 0 10px rgba(59, 130, 246, 0.8),
+                0 0 20px rgba(59, 130, 246, 0.6),
+                0 0 40px rgba(59, 130, 246, 0.4);
+            /* The jumping animation */
+            animation: jump 1.2s ease-in-out infinite;
         }
 
         /* The 'typing' cursor */
         .cursor {
             display: inline-block;
-            width: 3px;
+            width: 4px;
             height: 1em;
-            background-color: #5865F2;
-            margin-left: 5px;
-            box-shadow: 0 0 10px #5865F2;
+            background-color: #3b82f6; /* Bright blue cursor */
+            margin-left: 8px;
+            box-shadow: 0 0 15px #3b82f6;
             animation: blink 1s step-end infinite;
         }
 
@@ -53,16 +56,16 @@
             0%, 100% {
                 transform: translateY(0);
                 text-shadow: 
-                    0 0 10px rgba(88, 101, 242, 0.8),
-                    0 0 20px rgba(88, 101, 242, 0.6),
-                    0 0 40px rgba(88, 101, 242, 0.4);
+                    0 0 10px rgba(59, 130, 246, 0.8),
+                    0 0 20px rgba(59, 130, 246, 0.6),
+                    0 0 40px rgba(59, 130, 246, 0.4);
             }
             50% {
-                transform: translateY(-10px); /* Jump up */
+                transform: translateY(-15px); /* Jump higher */
                 text-shadow: 
-                    0 0 15px rgba(88, 101, 242, 1),
-                    0 0 30px rgba(88, 101, 242, 0.8),
-                    0 0 60px rgba(88, 101, 242, 0.6);
+                    0 0 20px rgba(59, 130, 246, 1),
+                    0 0 40px rgba(59, 130, 246, 0.8),
+                    0 0 60px rgba(59, 130, 246, 0.6);
             }
         }
 

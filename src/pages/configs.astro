@@ -10,66 +10,160 @@ const FOLDER_NAME = "Roblox";
     <meta charset="UTF-8" />
     <title>Vixix Configs</title>
     <style>
-        /* Basic Dark Mode Styling */
+        /* Import a clean, modern font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        /* Deep, moody gradient background */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             color: #ffffff;
-            padding: 20px;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Main glass container */
+        .glass-container {
+            width: 100%;
             max-width: 900px;
-            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
-        h1 { color: #5865F2; /* Discord Blurple */ }
-        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+
+        h1 { 
+            color: #ffffff; 
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(88, 101, 242, 0.6); /* Glowing text */
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p.subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 25px;
+        }
+
+        /* Input and Sort controls */
+        .controls { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+            flex-wrap: wrap;
+        }
+        
         input, select {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            background-color: #2b2b2b;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             color: white;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
         }
+
+        input:focus, select:focus {
+            border-color: rgba(88, 101, 242, 0.8);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
+        }
+
+        /* The Grid of Configs */
         .config-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
         }
+
+        /* Individual Frosted Glass Cards */
         .config-card {
-            background-color: #2b2b2b;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #444;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .config-card h3 { margin: 0 0 10px 0; word-break: break-all; }
+
+        /* Hover effect for the cards */
+        .config-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .config-card h3 { 
+            margin: 0 0 15px 0; 
+            word-break: break-all; 
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        /* Glassy Download Button */
         .download-btn {
             display: inline-block;
-            background-color: #5865F2;
+            background: rgba(88, 101, 242, 0.8);
             color: white;
-            padding: 8px 12px;
+            padding: 10px 15px;
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-weight: 600;
             text-align: center;
-            width: 100%;
-            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            margin-top: auto;
         }
-        .download-btn:hover { background-color: #4752c4; }
-        #loading { font-style: italic; color: #aaa; }
+
+        .download-btn:hover {
+            background: #5865F2;
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.6);
+            transform: scale(1.02);
+        }
+
+        #loading { 
+            font-style: italic; 
+            color: rgba(255, 255, 255, 0.5); 
+            text-align: center;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>🎮 Roblox Configs</h1>
-    <p>Download the latest configs below!</p>
+    
+    <!-- Everything is wrapped in this glass container -->
+    <div class="glass-container">
+        <h1>🎮 Roblox Configs</h1>
+        <p class="subtitle">Download the latest premium configs below.</p>
 
-    <div class="controls">
-        <input type="text" id="searchBar" placeholder="Search configs..." onkeyup="filterConfigs()" />
-        <select id="sortSelect" onchange="sortConfigs()">
-            <option value="name-asc">Sort by Name (A-Z)</option>
-            <option value="name-desc">Sort by Name (Z-A)</option>
-        </select>
+        <div class="controls">
+            <input type="text" id="searchBar" placeholder="🔍 Search configs..." onkeyup="filterConfigs()" />
+            <select id="sortSelect" onchange="sortConfigs()">
+                <option value="name-asc">Sort by Name (A-Z)</option>
+                <option value="name-desc">Sort by Name (Z-A)</option>
+            </select>
+        </div>
+
+        <p id="loading">Loading configs from GitHub... ⏳</p>
+        <div class="config-grid" id="configGrid"></div>
     </div>
-
-    <p id="loading">Loading configs from GitHub... ⏳</p>
-    <div class="config-grid" id="configGrid"></div>
 
     <script>
         // This part runs in the user's browser
@@ -100,7 +194,7 @@ const FOLDER_NAME = "Roblox";
             grid.innerHTML = '';
 
             if (configs.length === 0) {
-                grid.innerHTML = '<p>No configs found.</p>';
+                grid.innerHTML = '<p style="color: rgba(255,255,255,0.5); grid-column: 1/-1;">No configs found matching your search.</p>';
                 return;
             }
 

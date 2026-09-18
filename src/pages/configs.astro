@@ -7,6 +7,8 @@ const REPO_NAME = "my-config-site2";
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <!-- CRITICAL: Makes mobile scale properly -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vixix Configs</title>
     <style>
         /* ========================================= */
@@ -42,7 +44,7 @@ const REPO_NAME = "my-config-site2";
         *, *::before, *::after { box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; line-height: 1.5; min-height: 100vh; display: flex; justify-content: center; transition: background-color 0.3s ease, color 0.3s ease;
+            background-color: var(--bg); color: var(--text); margin: 0; padding: 40px 20px; line-height: 1.5; min-height: 100dvh; display: flex; justify-content: center; transition: background-color 0.3s ease, color 0.3s ease;
         }
         #bg-layer { position: fixed; top: -20px; left: -20px; width: calc(100% + 40px); height: calc(100% + 40px); z-index: -2; background-image: var(--bg-image); background-size: cover; background-position: center; filter: blur(12px); transition: background-image 0.5s ease; }
         #bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-color: var(--bg-overlay); transition: background-color 0.5s ease; }
@@ -73,9 +75,7 @@ const REPO_NAME = "my-config-site2";
         .config-card h3 { margin: 0; word-break: break-all; font-size: 14px; font-weight: 500; color: var(--text-bright); }
         #loading { color: var(--text-muted); font-size: 14px; text-align: center; padding: 20px; }
 
-        /* ========================================= */
-        /* 7. FLOATING MUSIC PLAYER                  */
-        /* ========================================= */
+        /* 7. FLOATING MUSIC PLAYER */
         #musicPlayer {
             position: fixed;
             bottom: 24px;
@@ -109,6 +109,63 @@ const REPO_NAME = "my-config-site2";
         @keyframes pulseMusic {
             0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
             50% { box-shadow: 0 0 20px 4px rgba(88, 101, 242, 0.6); }
+        }
+
+        /* ========================================= */
+        /* 8. MOBILE RESPONSIVENESS (The Fix)        */
+        /* ========================================= */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px 10px;
+            }
+            .container {
+                padding: 16px;
+                border-radius: 12px;
+                padding-bottom: 80px; /* Space for the floating music player */
+            }
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .theme-switcher {
+                width: 100%;
+                padding: 12px;
+            }
+            .category-tabs {
+                flex-wrap: wrap; /* Allows tabs to wrap on tiny screens */
+                gap: 4px;
+                padding: 4px;
+            }
+            .cat-btn {
+                flex: 1 1 30%; /* Prevents them from getting too squished */
+                padding: 8px 6px;
+                font-size: 13px;
+            }
+            .controls {
+                flex-direction: column; /* Stacks search and sort vertically */
+                gap: 10px;
+            }
+            input, select {
+                width: 100%;
+                padding: 12px 14px; /* Bigger tap targets */
+            }
+            .config-grid {
+                grid-template-columns: 1fr; /* Single column on mobile */
+                gap: 12px;
+            }
+            .config-card {
+                padding: 12px;
+                gap: 12px;
+            }
+            .config-card h3 {
+                font-size: 13px;
+            }
+            /* Make the download button slightly more compact on mobile */
+            .config-card button {
+                padding: 12px 16px !important;
+                font-size: 13px !important;
+            }
         }
     </style>
 </head>
@@ -174,13 +231,10 @@ const REPO_NAME = "my-config-site2";
         const music = document.getElementById('bgMusic');
         const playerBtn = document.getElementById('musicPlayer');
         
-        // Set initial volume
         music.volume = 0.3;
 
-        // Check if music was playing before (persist across page reloads/theme changes)
         const wasPlaying = localStorage.getItem('vixix-music') === 'playing';
         if (wasPlaying) {
-            // Browsers block autoplay, so we just update the UI to show it's ready
             playerBtn.textContent = '▶️'; 
         }
 
@@ -277,7 +331,6 @@ const REPO_NAME = "my-config-site2";
             });
         }
 
-        // CATEGORY TAB EVENT LISTENERS
         document.querySelectorAll('.cat-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -287,7 +340,6 @@ const REPO_NAME = "my-config-site2";
             });
         });
 
-        // SEARCH & SORT
         document.getElementById('searchBar').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             const filtered = allConfigs.filter(file => file.name.toLowerCase().includes(query));
@@ -304,7 +356,6 @@ const REPO_NAME = "my-config-site2";
             renderConfigs(sorted);
         });
 
-        // FORCE DOWNLOAD
         async function forceDownload(url, filename) {
             try {
                 const response = await fetch(url);
@@ -324,7 +375,6 @@ const REPO_NAME = "my-config-site2";
             }
         }
 
-        // Initial fetch on page load (defaults to UE)
         fetchConfigs();
     </script>
 </body>

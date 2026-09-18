@@ -10,22 +10,84 @@ const FOLDER_NAME = "Roblox";
     <meta charset="UTF-8" />
     <title>Vixix Configs</title>
     <style>
-        /* 1. BASE RESET */
+        /* ========================================= */
+        /* 1. THEME VARIABLES                        */
+        /* ========================================= */
+        
+        /* Default Theme: Midnight (Current clean dark) */
+        :root, body.theme-midnight {
+            --bg: #0d1117;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --text-muted: #8b949e;
+            --text-bright: #f0f6fc;
+            --input-bg: #161b22;
+            --btn-bg: #21262d;
+            --btn-hover: #30363d;
+            --btn-text: #c9d1d9;
+        }
+
+        /* Theme 2: Abyss (Pure Black OLED) */
+        body.theme-abyss {
+            --bg: #000000;
+            --card-bg: #111111;
+            --border: #222222;
+            --text: #eeeeee;
+            --text-muted: #888888;
+            --text-bright: #ffffff;
+            --input-bg: #111111;
+            --btn-bg: #222222;
+            --btn-hover: #333333;
+            --btn-text: #eeeeee;
+        }
+
+        /* Theme 3: Ghost (Clean Light) */
+        body.theme-ghost {
+            --bg: #f6f8fa;
+            --card-bg: #ffffff;
+            --border: #d0d7de;
+            --text: #24292f;
+            --text-muted: #57606a;
+            --text-bright: #000000;
+            --input-bg: #ffffff;
+            --btn-bg: #f6f8fa;
+            --btn-hover: #eaeef2;
+            --btn-text: #24292f;
+        }
+
+        /* Theme 4: Vixix (Deep Purple Dark) */
+        body.theme-vixix {
+            --bg: #120f1c;
+            --card-bg: #1c1727;
+            --border: #2d253a;
+            --text: #e0d8f0;
+            --text-muted: #8b7fa8;
+            --text-bright: #ffffff;
+            --input-bg: #1c1727;
+            --btn-bg: #2d253a;
+            --btn-hover: #3e3350;
+            --btn-text: #e0d8f0;
+        }
+
+        /* ========================================= */
+        /* 2. BASE RESET & LAYOUT                    */
+        /* ========================================= */
         *, *::before, *::after { box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0d1117;
-            color: #c9d1d9;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             padding: 40px 20px;
             line-height: 1.5;
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
 
-        /* 2. LAYOUT */
         .container {
             width: 100%;
             max-width: 900px;
@@ -33,23 +95,44 @@ const FOLDER_NAME = "Roblox";
 
         /* 3. HEADER */
         .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 32px;
-            border-bottom: 1px solid #30363d;
+            border-bottom: 1px solid var(--border);
             padding-bottom: 16px;
+            transition: border-color 0.2s ease;
         }
-        .header h1 { 
+        .header-text h1 { 
             margin: 0 0 8px 0; 
             font-size: 24px; 
             font-weight: 600;
-            color: #f0f6fc; 
+            color: var(--text-bright); 
         }
-        .header p { 
+        .header-text p { 
             margin: 0; 
-            color: #8b949e; 
+            color: var(--text-muted); 
             font-size: 14px; 
         }
 
-        /* 4. CONTROLS */
+        /* 4. THEME SWITCHER */
+        .theme-switcher {
+            padding: 8px 12px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        .theme-switcher:focus {
+            border-color: #58a6ff;
+        }
+
+        /* 5. SEARCH AND SORT CONTROLS */
         .controls { 
             display: flex; 
             gap: 12px; 
@@ -59,42 +142,41 @@ const FOLDER_NAME = "Roblox";
         input, select {
             flex: 1;
             padding: 10px 14px;
-            background-color: #161b22;
-            border: 1px solid #30363d;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            color: #c9d1d9;
+            color: var(--text);
             font-family: inherit;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
         input:focus, select:focus {
             border-color: #58a6ff; 
         }
 
-        /* 5. GRID */
+        /* 6. CONFIG GRID & CARDS */
         .config-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 16px;
         }
 
-        /* 6. CARDS */
         .config-card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
             align-items: flex-start; 
         }
 
         .config-card:hover {
-            border-color: #8b949e; 
+            border-color: var(--text-muted); 
         }
 
         .config-card h3 { 
@@ -102,22 +184,22 @@ const FOLDER_NAME = "Roblox";
             word-break: break-all; 
             font-size: 14px;
             font-weight: 500;
-            color: #f0f6fc;
+            color: var(--text-bright);
         }
 
         /* ========================================= */
-        /* 7. BRAND NEW SIMPLE BUTTON                */
+        /* 7. THE SIMPLE, UNBREAKABLE BUTTON         */
         /* ========================================= */
         .download-btn {
             /* Nuke all browser defaults */
             -webkit-appearance: none !important;
             appearance: none !important;
             
-            /* Simple, solid dark gray box */
-            background-color: #21262d !important;
-            border: 1px solid #30363d !important;
+            /* Use theme variables */
+            background-color: var(--btn-bg) !important;
+            border: 1px solid var(--border) !important;
             border-radius: 6px !important;
-            color: #c9d1d9 !important;
+            color: var(--btn-text) !important;
             
             /* Sizing */
             display: inline-block !important;
@@ -133,34 +215,42 @@ const FOLDER_NAME = "Roblox";
             cursor: pointer !important;
             outline: none !important;
             
-            /* Simple interaction */
             transition: all 0.1s ease !important;
         }
 
         .download-btn:hover {
-            background-color: #30363d !important;
-            color: #ffffff !important;
-            border-color: #8b949e !important;
+            background-color: var(--btn-hover) !important;
+            color: var(--text-bright) !important;
+            border-color: var(--text-muted) !important;
         }
 
         .download-btn:active {
-            background-color: #161b22 !important;
+            transform: scale(0.98) !important;
         }
 
         #loading { 
-            color: #8b949e; 
+            color: var(--text-muted); 
             font-size: 14px;
             text-align: center;
             padding: 20px;
         }
     </style>
 </head>
-<body>
+<body class="theme-midnight">
     
     <div class="container">
         <div class="header">
-            <h1>Roblox Configs</h1>
-            <p>Download the latest premium configs below.</p>
+            <div class="header-text">
+                <h1>Roblox Configs</h1>
+                <p>Download the latest premium configs below.</p>
+            </div>
+            <!-- THEME SWITCHER -->
+            <select id="themeSwitcher" class="theme-switcher">
+                <option value="theme-midnight">Midnight (Default)</option>
+                <option value="theme-abyss">Abyss (OLED)</option>
+                <option value="theme-ghost">Ghost (Light)</option>
+                <option value="theme-vixix">Vixix (Purple)</option>
+            </select>
         </div>
 
         <div class="controls">
@@ -176,6 +266,27 @@ const FOLDER_NAME = "Roblox";
     </div>
 
     <script>
+        // ==========================================
+        // THEME SWITCHER LOGIC
+        // ==========================================
+        
+        // Check local storage for a saved theme on load
+        const savedTheme = localStorage.getItem('vixix-theme');
+        if (savedTheme) {
+            document.body.className = savedTheme;
+            document.getElementById('themeSwitcher').value = savedTheme;
+        }
+
+        // Listen for changes on the dropdown
+        document.getElementById('themeSwitcher').addEventListener('change', (e) => {
+            const newTheme = e.target.value;
+            document.body.className = newTheme;
+            localStorage.setItem('vixix-theme', newTheme);
+        });
+
+        // ==========================================
+        // CONFIG FETCHING & RENDERING
+        // ==========================================
         const API_URL = `https://api.github.com/repos/Vaericthedev/my-config-site2/contents/Roblox`;
         let allConfigs = [];
 
@@ -201,7 +312,7 @@ const FOLDER_NAME = "Roblox";
             grid.innerHTML = '';
 
             if (configs.length === 0) {
-                grid.innerHTML = '<p style="color: #8b949e; grid-column: 1/-1;">No configs found.</p>';
+                grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1;">No configs found.</p>';
                 return;
             }
 
@@ -215,8 +326,6 @@ const FOLDER_NAME = "Roblox";
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'download-btn';
-                
-                // JUST TEXT. NO SVG. NOTHING TO BREAK.
                 btn.textContent = 'Download'; 
                 
                 btn.addEventListener('click', () => {

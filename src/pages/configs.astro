@@ -72,6 +72,44 @@ const REPO_NAME = "my-config-site2";
         .config-card:hover { border-color: var(--text-muted); }
         .config-card h3 { margin: 0; word-break: break-all; font-size: 14px; font-weight: 500; color: var(--text-bright); }
         #loading { color: var(--text-muted); font-size: 14px; text-align: center; padding: 20px; }
+
+        /* ========================================= */
+        /* 7. FLOATING MUSIC PLAYER                  */
+        /* ========================================= */
+        #musicPlayer {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            color: var(--text-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            font-size: 24px;
+        }
+        #musicPlayer:hover {
+            transform: scale(1.1);
+            background: var(--btn-solid-bg);
+            color: var(--btn-solid-text);
+            border-color: var(--btn-solid-bg);
+        }
+        #musicPlayer.playing {
+            animation: pulseMusic 2s infinite;
+        }
+        @keyframes pulseMusic {
+            0%, 100% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 20px 4px rgba(88, 101, 242, 0.6); }
+        }
     </style>
 </head>
 <body class="theme-midnight">
@@ -112,6 +150,10 @@ const REPO_NAME = "my-config-site2";
         <div class="config-grid" id="configGrid"></div>
     </div>
 
+    <!-- MUSIC PLAYER -->
+    <button id="musicPlayer" title="Play/Pause Music">🎵</button>
+    <audio id="bgMusic" src="/chill-music.mp3" loop></audio>
+
     <script>
         // ==========================================
         // THEME SWITCHER
@@ -127,14 +169,47 @@ const REPO_NAME = "my-config-site2";
         });
 
         // ==========================================
+        // MUSIC PLAYER LOGIC
+        // ==========================================
+        const music = document.getElementById('bgMusic');
+        const playerBtn = document.getElementById('musicPlayer');
+        
+        // Set initial volume
+        music.volume = 0.3;
+
+        // Check if music was playing before (persist across page reloads/theme changes)
+        const wasPlaying = localStorage.getItem('vixix-music') === 'playing';
+        if (wasPlaying) {
+            // Browsers block autoplay, so we just update the UI to show it's ready
+            playerBtn.textContent = '▶️'; 
+        }
+
+        playerBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().then(() => {
+                    playerBtn.textContent = '🎵';
+                    playerBtn.classList.add('playing');
+                    localStorage.setItem('vixix-music', 'playing');
+                }).catch(err => {
+                    console.log("Play failed:", err);
+                });
+            } else {
+                music.pause();
+                playerBtn.textContent = '⏸️';
+                playerBtn.classList.remove('playing');
+                localStorage.setItem('vixix-music', 'paused');
+            }
+        });
+
+        // ==========================================
         // CONFIG FETCHING & CATEGORY LOGIC
         // ==========================================
         const GITHUB_USERNAME = "Vaericthedev";
         const REPO_NAME = "my-config-site2";
-        const PARENT_FOLDER = "Roblox"; // <--- THIS WAS THE MISSING PART
+        const PARENT_FOLDER = "Roblox"; 
         
         let allConfigs = [];
-        let currentCategory = 'UE'; // Default category
+        let currentCategory = 'UE'; 
 
         async function fetchConfigs() {
             const loadingEl = document.getElementById('loading');
@@ -142,10 +217,9 @@ const REPO_NAME = "my-config-site2";
             
             loadingEl.style.display = 'block';
             loadingEl.innerText = `Loading ${currentCategory} configs...`;
-            gridEl.innerHTML = ''; // Clear grid while loading
+            gridEl.innerHTML = ''; 
 
             try {
-                // FIXED: Now includes the parent "Roblox" folder in the path
                 const API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${PARENT_FOLDER}/${currentCategory}`;
                 const response = await fetch(API_URL);
                 const data = await response.json();
@@ -156,7 +230,7 @@ const REPO_NAME = "my-config-site2";
                         return name.endsWith('.json') || name.endsWith('.cfg') || name.endsWith('.txt');
                     });
                 } else {
-                    allConfigs = []; // Folder is empty or doesn't exist
+                    allConfigs = []; 
                 }
 
                 loadingEl.style.display = 'none';
@@ -203,9 +277,7 @@ const REPO_NAME = "my-config-site2";
             });
         }
 
-        // ==========================================
         // CATEGORY TAB EVENT LISTENERS
-        // ==========================================
         document.querySelectorAll('.cat-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -215,9 +287,7 @@ const REPO_NAME = "my-config-site2";
             });
         });
 
-        // ==========================================
         // SEARCH & SORT
-        // ==========================================
         document.getElementById('searchBar').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase();
             const filtered = allConfigs.filter(file => file.name.toLowerCase().includes(query));
@@ -234,9 +304,7 @@ const REPO_NAME = "my-config-site2";
             renderConfigs(sorted);
         });
 
-        // ==========================================
         // FORCE DOWNLOAD
-        // ==========================================
         async function forceDownload(url, filename) {
             try {
                 const response = await fetch(url);

@@ -10,7 +10,7 @@ const FOLDER_NAME = "Roblox";
     <meta charset="UTF-8" />
     <title>Vixix Configs</title>
     <style>
-        /* 1. BASE RESET & MAN-MADE TYPOGRAPHY */
+        /* 1. BASE RESET */
         *, *::before, *::after { box-sizing: border-box; }
         
         body {
@@ -25,7 +25,7 @@ const FOLDER_NAME = "Roblox";
             justify-content: center;
         }
 
-        /* 2. CLEAN LAYOUT */
+        /* 2. LAYOUT */
         .container {
             width: 100%;
             max-width: 900px;
@@ -49,7 +49,7 @@ const FOLDER_NAME = "Roblox";
             font-size: 14px; 
         }
 
-        /* 4. SEARCH AND SORT */
+        /* 4. CONTROLS */
         .controls { 
             display: flex; 
             gap: 12px; 
@@ -73,14 +73,14 @@ const FOLDER_NAME = "Roblox";
             border-color: #58a6ff; 
         }
 
-        /* 5. CONFIG GRID */
+        /* 5. GRID */
         .config-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 16px;
         }
 
-        /* 6. CLEAN CARDS */
+        /* 6. CARDS */
         .config-card {
             background-color: #161b22;
             border: 1px solid #30363d;
@@ -106,55 +106,61 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* 7. iOS 18 "LIQUID GLASS" BUTTON           */
+        /* 7. THE BULLETPROOF iOS GLASS BUTTON       */
         /* ========================================= */
         .download-btn {
-            /* Layout */
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            width: auto;
-            padding: 8px 16px;
-            margin: 0;
+            /* FORCE RESET - Kill the default white box */
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            background: transparent !important;
+            border: none !important;
+            margin: 0 !important;
+            font-family: inherit !important;
 
-            /* THE iOS GLASS EFFECT */
-            background: rgba(255, 255, 255, 0.08); /* Very subtle white tint */
-            backdrop-filter: blur(12px); /* The frosted blur */
-            -webkit-backdrop-filter: blur(12px);
+            /* iOS 18 Glass Styling */
+            display: inline-flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            width: auto !important;
+            padding: 8px 16px !important;
+            border-radius: 9999px !important; /* Pill shape */
             
-            /* The 3D Glass Edge */
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-top: 1px solid rgba(255, 255, 255, 0.3); /* Bright top edge */
-            border-left: 1px solid rgba(255, 255, 255, 0.3); /* Bright left edge */
-            border-radius: 9999px; /* Perfect iOS pill shape */
+            /* The frosted glass look */
+            background-color: rgba(255, 255, 255, 0.08) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
             
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            outline: none;
+            /* The 3D glass edge */
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.3) !important;
             
-            /* Soft Apple-like shadow */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: all 0.2s ease;
+            color: #ffffff !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            outline: none !important;
+            
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.2s ease !important;
         }
 
-        /* Hover: Glass gets slightly brighter */
+        /* Hover */
         .download-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            transform: scale(1.02) !important;
         }
 
-        /* Click: Tactile press */
+        /* Click */
         .download-btn:active {
-            transform: scale(0.96);
+            transform: scale(0.96) !important;
         }
 
-        /* Force the SVG to be tiny, clean, and unbroken */
+        /* Force the SVG to be tiny and unbroken */
         .download-btn svg {
             width: 14px !important;
             height: 14px !important;
@@ -234,10 +240,12 @@ const FOLDER_NAME = "Roblox";
                 const title = document.createElement('h3');
                 title.textContent = file.name;
 
+                // Create the button
                 const btn = document.createElement('button');
+                btn.type = 'button'; // Prevents default form behavior
                 btn.className = 'download-btn';
                 
-                // CLEAN SVG ICON + TEXT
+                // Clean SVG + Text
                 btn.innerHTML = `
                     <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>

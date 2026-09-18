@@ -5,10 +5,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CRITICAL: Makes mobile scale properly and prevents zooming weirdness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Loading Vixix Configs...</title>
     <style>
-        /* Use Inter - the standard font for modern tech companies */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap');
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -23,13 +23,19 @@
             animation: bg-pan 20s ease-in-out infinite alternate;
             color: #ffffff;
             margin: 0;
+            /* 100dvh fixes mobile address bar issues */
             min-height: 100dvh; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            padding: 20px; 
+            
+            /* Safe area padding for notched phones (iPhone X and newer) */
+            padding-top: max(20px, env(safe-area-inset-top));
+            padding-bottom: max(20px, env(safe-area-inset-bottom));
+            padding-left: max(20px, env(safe-area-inset-left));
+            padding-right: max(20px, env(safe-area-inset-right));
         }
 
         /* Subtle grid overlay */
@@ -44,24 +50,33 @@
             z-index: -1;
             mask-image: radial-gradient(circle at center, transparent 10%, black 80%);
             -webkit-mask-image: radial-gradient(circle at center, transparent 10%, black 80%);
+            pointer-events: none; /* Prevents this from blocking taps on mobile */
         }
 
-        /* Click to Enter Button */
+        /* Click to Enter Button - Mobile Optimized */
         #enterBtn {
             font-family: 'Inter', sans-serif;
+            /* Smaller minimum size for tiny phones */
             font-size: clamp(1rem, 4vw, 1.25rem);
             font-weight: 600;
             color: #ffffff;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: clamp(12px, 3vw, 16px) clamp(24px, 6vw, 40px);
+            /* Minimum 48px height for easy tapping */
+            padding: 16px 32px;
+            min-height: 48px; 
             border-radius: 50px;
             cursor: pointer;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             white-space: nowrap;
             letter-spacing: 0.02em;
+            /* Prevents blue highlight on tap for Android/iOS */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            z-index: 10;
         }
 
         #enterBtn:hover {
@@ -69,6 +84,15 @@
             border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Remove hover effects on touch devices to prevent sticky hover states */
+        @media (hover: none) {
+            #enterBtn:hover {
+                transform: none;
+                background: rgba(255, 255, 255, 0.05);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            }
         }
 
         /* Container for the loading text */
@@ -79,13 +103,17 @@
             justify-content: center;
             width: 100%;
             text-align: center;
+            z-index: 10;
         }
 
         .loader-text {
-            font-size: clamp(2.5rem, 8vw, 5rem); 
+            /* Scaled down minimum size for mobile */
+            font-size: clamp(1.8rem, 8vw, 4.5rem); 
             font-weight: 800;
             letter-spacing: -0.03em;
-            line-height: 1.1;
+            line-height: 1.2;
+            width: 100%;
+            max-width: 90vw; /* Prevents overflowing the screen */
             
             /* The Premium Shimmer Effect */
             background: linear-gradient(90deg, #ffffff 0%, #3b82f6 50%, #ffffff 100%);
@@ -93,9 +121,10 @@
             color: transparent;
             -webkit-background-clip: text;
             background-clip: text;
+            -webkit-text-fill-color: transparent; /* Critical for iOS Safari */
             
             /* Soft, static glow behind the text */
-            filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.3));
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
             
             /* Smooth, continuous shimmer */
             animation: shine 4s linear infinite;
@@ -112,12 +141,13 @@
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
             animation: blink 1s step-end infinite;
             vertical-align: middle;
+            -webkit-text-fill-color: initial; /* Ensures cursor is visible */
         }
 
         #muteBtn {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: max(24px, env(safe-area-inset-bottom));
+            right: max(24px, env(safe-area-inset-right));
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             color: white;
@@ -131,6 +161,10 @@
             justify-content: center;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            z-index: 100;
         }
 
         #muteBtn:hover {
@@ -166,7 +200,7 @@
 
     <button id="muteBtn">🔇</button>
 
-    <audio id="introMusic" src="/intro-music.mp3" loop></audio>
+    <audio id="introMusic" src="/intro-music.mp3" loop preload="auto"></audio>
 
     <script>
         const enterBtn = document.getElementById('enterBtn');
@@ -181,16 +215,23 @@
         music.volume = 0.3; 
 
         enterBtn.addEventListener('click', () => {
-            music.play().catch(error => console.log("Audio play failed:", error));
+            // Attempt to play audio, but don't let it break the app if it fails
+            try {
+                music.play().catch(error => console.log("Audio play failed:", error));
+            } catch(e) {
+                console.log("Audio error:", e);
+            }
+            
             enterBtn.style.display = 'none';
             loaderContainer.style.display = 'flex';
             muteBtn.textContent = '🔊'; 
             typeWriter();
         });
 
-        muteBtn.addEventListener('click', () => {
+        muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents double-triggering on mobile
             if (music.paused) {
-                music.play();
+                music.play().catch(() => {});
                 muteBtn.textContent = '🔊';
             } else {
                 music.pause();
@@ -202,7 +243,6 @@
             if (charIndex < textToType.length) {
                 textContent.textContent += textToType.charAt(charIndex);
                 charIndex++;
-                // Slightly faster typing for a more premium feel
                 setTimeout(typeWriter, 80);
             } else {
                 setTimeout(() => {

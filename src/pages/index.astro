@@ -7,22 +7,18 @@
     <meta charset="UTF-8" />
     <title>Loading Vixix Configs...</title>
     <style>
-        /* Import Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap');
 
         *, *::before, *::after { box-sizing: border-box; }
         
         body {
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #050810; /* Deep, almost black blue */
-            
-            /* THE COOL BACKGROUND: Animated Mesh Gradient */
+            background-color: #050810; 
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 50%),
                 radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.1), transparent 50%);
             background-size: 200% 200%;
             animation: bg-pan 15s ease-in-out infinite alternate;
-
             color: #ffffff;
             margin: 0;
             height: 100vh;
@@ -33,7 +29,6 @@
             overflow: hidden;
         }
 
-        /* THE CLEAN TOUCH: Subtle Grid Overlay */
         body::before {
             content: "";
             position: absolute;
@@ -43,27 +38,57 @@
                 linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             z-index: -1;
-            /* Fades the grid out towards the center so it doesn't distract from the text */
             mask-image: radial-gradient(circle at center, transparent 20%, black 80%);
             -webkit-mask-image: radial-gradient(circle at center, transparent 20%, black 80%);
         }
 
-        /* Container for the loading text */
+        /* Click to Enter Button */
+        #enterBtn {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            padding: 15px 40px;
+            border-radius: 50px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+            animation: pulseBtn 2s infinite;
+        }
+
+        #enterBtn:hover {
+            background: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+            transform: scale(1.05);
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        /* Container for the loading text (hidden initially) */
+        .loader-container {
+            display: none; /* Hidden until they click Enter */
+            flex-direction: column;
+            align-items: center;
+        }
+
         .loader-text {
             font-size: 3rem; 
             font-weight: 800;
             letter-spacing: 0.05em;
             color: #ffffff;
-            /* The blue neon glow */
             text-shadow: 
                 0 0 10px rgba(59, 130, 246, 0.8),
                 0 0 20px rgba(59, 130, 246, 0.6),
                 0 0 40px rgba(59, 130, 246, 0.4);
-            /* The jumping animation */
             animation: jump 1.2s ease-in-out infinite;
         }
 
-        /* The 'typing' cursor */
         .cursor {
             display: inline-block;
             width: 4px;
@@ -74,31 +99,46 @@
             animation: blink 1s step-end infinite;
         }
 
-        /* Keyframe for the jumping/glow wave */
+        /* Mute Button */
+        #muteBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        #muteBtn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
         @keyframes jump {
             0%, 100% {
                 transform: translateY(0);
-                text-shadow: 
-                    0 0 10px rgba(59, 130, 246, 0.8),
-                    0 0 20px rgba(59, 130, 246, 0.6),
-                    0 0 40px rgba(59, 130, 246, 0.4);
+                text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4);
             }
             50% {
                 transform: translateY(-15px); 
-                text-shadow: 
-                    0 0 20px rgba(59, 130, 246, 1),
-                    0 0 40px rgba(59, 130, 246, 0.8),
-                    0 0 60px rgba(59, 130, 246, 0.6);
+                text-shadow: 0 0 20px rgba(59, 130, 246, 1), 0 0 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.6);
             }
         }
 
-        /* Keyframe for the blinking cursor */
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
 
-        /* Keyframe for the background pan */
         @keyframes bg-pan {
             0% { background-position: 0% 50%; }
             100% { background-position: 100% 50%; }
@@ -107,15 +147,59 @@
 </head>
 <body>
     
-    <div class="loader-text" id="loaderText">
-        <span id="textContent"></span><span class="cursor"></span>
+    <!-- Click to Enter Button -->
+    <button id="enterBtn">Click to Enter</button>
+
+    <!-- Loading Text Container -->
+    <div class="loader-container" id="loaderContainer">
+        <div class="loader-text" id="loaderText">
+            <span id="textContent"></span><span class="cursor"></span>
+        </div>
     </div>
 
+    <!-- Mute Button -->
+    <button id="muteBtn">🔇</button>
+
+    <!-- The Audio File -->
+    <audio id="introMusic" src="/intro-music.mp3" loop></audio>
+
     <script>
-        const textToType = "Vixix Configs";
+        const enterBtn = document.getElementById('enterBtn');
+        const loaderContainer = document.getElementById('loaderContainer');
         const textContent = document.getElementById('textContent');
+        const music = document.getElementById('introMusic');
+        const muteBtn = document.getElementById('muteBtn');
         
         let charIndex = 0;
+        const textToType = "Vixix Configs";
+
+        // Set music volume low (lwk)
+        music.volume = 0.3; 
+
+        // Handle the "Click to Enter" button
+        enterBtn.addEventListener('click', () => {
+            // 1. Play the music
+            music.play().catch(error => console.log("Audio play failed:", error));
+            
+            // 2. Hide the button and show the loader
+            enterBtn.style.display = 'none';
+            loaderContainer.style.display = 'flex';
+            muteBtn.textContent = '🔊'; // Change icon to unmuted
+            
+            // 3. Start typing
+            typeWriter();
+        });
+
+        // Handle Mute/Unmute
+        muteBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                muteBtn.textContent = '🔊';
+            } else {
+                music.pause();
+                muteBtn.textContent = '🔇';
+            }
+        });
 
         function typeWriter() {
             if (charIndex < textToType.length) {
@@ -124,12 +208,23 @@
                 setTimeout(typeWriter, 120);
             } else {
                 setTimeout(() => {
-                    window.location.href = '/configs';
+                    // Fade out music slightly before redirecting
+                    let fadeOut = setInterval(() => {
+                        if (music.volume > 0.05) {
+                            music.volume -= 0.05;
+                        } else {
+                            clearInterval(fadeOut);
+                            music.pause();
+                        }
+                    }, 100);
+
+                    // Redirect after 1.5 seconds
+                    setTimeout(() => {
+                        window.location.href = '/configs';
+                    }, 1500);
                 }, 1500); 
             }
         }
-
-        window.onload = typeWriter;
     </script>
 
 </body>

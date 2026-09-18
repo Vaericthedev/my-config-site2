@@ -12,6 +12,7 @@ const FOLDER_NAME = "Roblox";
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
+        /* 1. THE BACKGROUND */
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
@@ -23,6 +24,7 @@ const FOLDER_NAME = "Roblox";
             justify-content: center;
         }
 
+        /* 2. THE MAIN GLASS CONTAINER */
         .glass-container {
             width: 100%;
             max-width: 900px;
@@ -50,6 +52,7 @@ const FOLDER_NAME = "Roblox";
             margin-bottom: 25px;
         }
 
+        /* 3. SEARCH AND SORT CONTROLS */
         .controls { 
             display: flex; 
             gap: 15px; 
@@ -76,12 +79,14 @@ const FOLDER_NAME = "Roblox";
             box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
         }
 
+        /* 4. THE CONFIG GRID */
         .config-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
+        /* 5. THE FROSTED GLASS CARDS */
         .config-card {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(8px);
@@ -93,6 +98,8 @@ const FOLDER_NAME = "Roblox";
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            /* This ensures the button stays at the bottom */
+            align-items: flex-start; 
         }
 
         .config-card:hover {
@@ -112,7 +119,7 @@ const FOLDER_NAME = "Roblox";
         }
 
         /* ========================================= */
-        /* FIXED: BULLETPROOF BUTTON SIZE            */
+        /* 6. THE FIXED iOS GLASS DOWNLOAD BUTTON     */
         /* ========================================= */
         .download-btn {
             position: relative;
@@ -120,14 +127,16 @@ const FOLDER_NAME = "Roblox";
             align-items: center;
             justify-content: center;
             gap: 8px;
+            /* LOCK THE SIZE SO IT CANNOT STRETCH */
             width: 100%;
-            height: 42px; /* Force exact height */
-            min-height: 42px;
-            max-height: 42px;
-            flex-grow: 0; /* STOP flexbox from stretching it! */
-            flex-shrink: 0;
-            padding: 0 16px;
-            border-radius: 50px;
+            height: 42px !important;
+            min-height: 42px !important;
+            max-height: 42px !important;
+            flex-grow: 0 !important;
+            flex-shrink: 0 !important;
+            
+            padding: 0;
+            border-radius: 50px; /* iOS Pill Shape */
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -136,12 +145,15 @@ const FOLDER_NAME = "Roblox";
             font-size: 0.9rem;
             font-weight: 600;
             text-decoration: none;
-            overflow: hidden;
+            overflow: hidden; /* Keeps the water line inside */
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.2); /* Inner glass shine */
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        /* The "Water Line" Animation */
         .download-btn::before {
             content: '';
             position: absolute;
@@ -149,7 +161,12 @@ const FOLDER_NAME = "Roblox";
             left: -150%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
             transform: skewX(-25deg);
             transition: all 0.6s ease;
         }
@@ -162,7 +179,7 @@ const FOLDER_NAME = "Roblox";
         }
 
         .download-btn:hover::before {
-            left: 150%;
+            left: 150%; /* Water line sweeps across */
         }
 
         .download-btn:active {
@@ -170,14 +187,14 @@ const FOLDER_NAME = "Roblox";
             box-shadow: 0 0 10px rgba(88, 101, 242, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.3);
         }
 
-        /* FIXED: Force SVG to be small no matter what */
+        /* FORCE THE SVG ICON TO STAY SMALL */
         .download-btn svg {
             width: 16px !important;
             height: 16px !important;
-            min-width: 16px;
-            max-width: 16px;
-            min-height: 16px;
-            max-height: 16px;
+            min-width: 16px !important;
+            max-width: 16px !important;
+            min-height: 16px !important;
+            max-height: 16px !important;
             display: block;
             flex-shrink: 0;
             transition: transform 0.3s ease;
@@ -222,7 +239,7 @@ const FOLDER_NAME = "Roblox";
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
-                // FIXED: Make the file extension check lowercase so it catches .CFG, .JSON, etc.
+                // Filter for .json, .cfg, .txt (case insensitive)
                 allConfigs = data.filter(file => {
                     const name = file.name.toLowerCase();
                     return name.endsWith('.json') || name.endsWith('.cfg') || name.endsWith('.txt');
@@ -240,7 +257,7 @@ const FOLDER_NAME = "Roblox";
             grid.innerHTML = '';
 
             if (configs.length === 0) {
-                grid.innerHTML = '<p style="color: rgba(255,255,255,0.5); grid-column: 1/-1;">No configs found matching your search.</p>';
+                grid.innerHTML = '<p style="color: rgba(255,255,255,0.5); grid-column: 1/-1;">No configs found.</p>';
                 return;
             }
 
@@ -248,7 +265,7 @@ const FOLDER_NAME = "Roblox";
                 const card = document.createElement('div');
                 card.className = 'config-card';
                 
-                // Added ?raw=true to the URL which helps GitHub download the file properly
+                // Adding ?raw=true forces GitHub to give us the raw file data
                 const downloadUrl = file.download_url + '?raw=true';
 
                 card.innerHTML = `
@@ -266,33 +283,30 @@ const FOLDER_NAME = "Roblox";
             });
         }
 
-        // FIXED: Bulletproof download function
+        // THIS IS THE FUNCTION THAT FORCES THE DOWNLOAD
         async function forceDownload(url, filename) {
             try {
-                // 1. Fetch the file from GitHub
+                // Fetch the file from GitHub
                 const response = await fetch(url);
-                if (!response.ok) throw new Error("Network response was not ok");
-                
-                // 2. Turn it into a raw file object (Blob)
+                // Turn it into a "Blob" (a raw file object)
                 const blob = await response.blob();
-                
-                // 3. Create a temporary URL for that object
+                // Create a temporary internal URL for the file
                 const blobUrl = window.URL.createObjectURL(blob);
                 
-                // 4. Create an invisible link and click it
+                // Create a hidden link to trigger the download
                 const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = blobUrl;
-                a.download = filename; // Forces the file to download instead of opening
+                a.download = filename; // This forces the download
                 document.body.appendChild(a);
-                a.click();
+                a.click(); // Simulate a click
                 
-                // 5. Clean up
+                // Clean up memory
                 window.URL.revokeObjectURL(blobUrl);
                 document.body.removeChild(a);
             } catch (error) {
-                console.error('Download failed, opening in new tab:', error);
-                // Fallback: If the script fails, just open the raw link in a new tab
+                console.error('Download failed:', error);
+                // Fallback: If the script fails, just open the link
                 window.open(url, '_blank');
             }
         }

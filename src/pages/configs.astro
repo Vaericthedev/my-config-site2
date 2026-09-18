@@ -10,135 +10,137 @@ const FOLDER_NAME = "Roblox";
     <meta charset="UTF-8" />
     <title>Vixix Configs</title>
     <style>
-        /* 1. BASE RESET & TYPOGRAPHY */
-        *, *::before, *::after { box-sizing: border-box; }
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        /* 1. BACKGROUND */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0d1117; /* Clean, solid dark background */
-            color: #c9d1d9;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #ffffff;
+            min-height: 100vh;
             margin: 0;
             padding: 40px 20px;
-            line-height: 1.5;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
         }
 
-        /* 2. CLEAN LAYOUT */
-        .container {
+        /* 2. MAIN GLASS CONTAINER */
+        .glass-container {
             width: 100%;
             max-width: 900px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
-        /* 3. HEADER */
-        .header {
-            margin-bottom: 32px;
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 16px;
-        }
-        .header h1 { 
-            margin: 0 0 8px 0; 
-            font-size: 24px; 
-            font-weight: 600;
-            color: #f0f6fc; 
-        }
-        .header p { 
-            margin: 0; 
-            color: #8b949e; 
-            font-size: 14px; 
+        h1 { 
+            color: #ffffff; 
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(88, 101, 242, 0.6);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* 4. SEARCH AND SORT */
+        p.subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 25px;
+        }
+
+        /* 3. SEARCH AND SORT CONTROLS */
         .controls { 
             display: flex; 
-            gap: 12px; 
-            margin-bottom: 24px; 
+            gap: 15px; 
+            margin-bottom: 30px; 
+            flex-wrap: wrap;
         }
         
         input, select {
-            flex: 1;
-            padding: 10px 14px;
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 6px;
-            color: #c9d1d9;
-            font-family: inherit;
-            font-size: 14px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-family: 'Inter', sans-serif;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
         }
 
         input:focus, select:focus {
-            border-color: #58a6ff; 
+            border-color: rgba(88, 101, 242, 0.8);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(88, 101, 242, 0.3);
         }
 
-        /* 5. CONFIG GRID */
+        /* 4. CONFIG GRID */
         .config-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
         }
 
-        /* 6. CLEAN CARDS (No glass blur, just solid dark mode) */
+        /* 5. FROSTED GLASS CARDS */
         .config-card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            transition: border-color 0.2s ease;
-            align-items: flex-start; /* Stops the button from stretching! */
+            justify-content: space-between;
+            gap: 15px; /* Spacing between filename and button */
         }
 
         .config-card:hover {
-            border-color: #8b949e; 
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .config-card h3 { 
             margin: 0; 
             word-break: break-all; 
-            font-size: 14px;
-            font-weight: 500;
-            color: #f0f6fc;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.02em;
         }
 
         /* ========================================= */
-        /* 7. THE SMALL TRANSPARENT BUTTON WITH SHINE */
+        /* 6. THE PERFECT BUTTON (NO SVGs ALLOWED)   */
         /* ========================================= */
         .download-btn {
             position: relative;
-            display: inline-flex !important;
-            flex-direction: row !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important; 
-            
-            /* Small sizing - Doesn't fill the card */
-            width: auto !important; 
-            height: auto !important;
-            padding: 8px 14px !important;
-            margin: 0 !important;
-
-            /* Completely Transparent */
-            background: transparent !important; 
-            border: 1px solid rgba(255, 255, 255, 0.2) !important; 
-            border-radius: 8px !important; 
-            color: #ffffff !important;
-            
-            /* Clean small text */
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            text-decoration: none !important;
-            
-            /* Interaction */
-            cursor: pointer !important;
-            outline: none !important;
-            overflow: hidden !important; /* Keeps the water line inside */
-            transition: all 0.2s ease !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 42px; /* Fixed height prevents stretching */
+            box-sizing: border-box;
+            border-radius: 50px; /* Pill shape */
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            overflow: hidden;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         /* The Water Line Animation */
@@ -149,44 +151,30 @@ const FOLDER_NAME = "Roblox";
             left: -150%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
             transform: skewX(-25deg);
-            transition: all 0.5s ease;
+            transition: all 0.6s ease;
+        }
+
+        .download-btn:hover {
+            background: rgba(88, 101, 242, 0.3);
+            border-color: rgba(88, 101, 242, 0.6);
+            box-shadow: 0 0 25px rgba(88, 101, 242, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
         }
 
         .download-btn:hover::before {
-            left: 150%; /* Sweeps the shine across */
+            left: 150%; /* Water line sweeps across */
         }
 
-        /* Hover: Subtle frosted glass glow */
-        .download-btn:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-color: rgba(255, 255, 255, 0.4) !important;
-        }
-
-        /* Click: Tactile press */
         .download-btn:active {
-            transform: scale(0.97) !important;
-        }
-
-        /* Force the SVG to be tiny, white, and unbroken */
-        .download-btn svg {
-            width: 14px !important;
-            height: 14px !important;
-            min-width: 14px !important;
-            max-width: 14px !important;
-            min-height: 14px !important;
-            max-height: 14px !important;
-            flex-shrink: 0 !important;
-            display: block !important;
-            stroke: currentColor !important;
-            stroke-width: 2.5 !important;
-            fill: none !important;
+            transform: scale(0.96) translateY(0);
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.3);
         }
 
         #loading { 
-            color: #8b949e; 
-            font-size: 14px;
+            font-style: italic; 
+            color: rgba(255, 255, 255, 0.5); 
             text-align: center;
             padding: 20px;
         }
@@ -194,14 +182,12 @@ const FOLDER_NAME = "Roblox";
 </head>
 <body>
     
-    <div class="container">
-        <div class="header">
-            <h1>Roblox Configs</h1>
-            <p>Download the latest premium configs below.</p>
-        </div>
+    <div class="glass-container">
+        <h1>🎮 Roblox Configs</h1>
+        <p class="subtitle">Download the latest premium configs below.</p>
 
         <div class="controls">
-            <input type="text" id="searchBar" placeholder="Search configs..." oninput="filterConfigs()" />
+            <input type="text" id="searchBar" placeholder="🔍 Search configs..." oninput="filterConfigs()" />
             <select id="sortSelect" onchange="sortConfigs()">
                 <option value="name-asc">Sort by Name (A-Z)</option>
                 <option value="name-desc">Sort by Name (Z-A)</option>
@@ -221,6 +207,7 @@ const FOLDER_NAME = "Roblox";
                 const response = await fetch(API_URL);
                 const data = await response.json();
                 
+                // Filter for .json, .cfg, .txt (case insensitive)
                 allConfigs = data.filter(file => {
                     const name = file.name.toLowerCase();
                     return name.endsWith('.json') || name.endsWith('.cfg') || name.endsWith('.txt');
@@ -235,13 +222,14 @@ const FOLDER_NAME = "Roblox";
 
         function renderConfigs(configs) {
             const grid = document.getElementById('configGrid');
-            grid.innerHTML = '';
+            grid.innerHTML = ''; // Clear the grid
 
             if (configs.length === 0) {
-                grid.innerHTML = '<p style="color: #8b949e; grid-column: 1/-1;">No configs found.</p>';
+                grid.innerHTML = '<p style="color: rgba(255,255,255,0.5); grid-column: 1/-1;">No configs found.</p>';
                 return;
             }
 
+            // Build the cards using safe DOM manipulation (No innerHTML string injection!)
             configs.forEach(file => {
                 const card = document.createElement('div');
                 card.className = 'config-card';
@@ -251,16 +239,9 @@ const FOLDER_NAME = "Roblox";
 
                 const btn = document.createElement('button');
                 btn.className = 'download-btn';
+                btn.textContent = 'Download ⬇️'; // Simple text, no SVG to break the layout
                 
-                btn.innerHTML = `
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
-                    <span>Download</span>
-                `;
-                
+                // Attach the download event listener directly
                 btn.addEventListener('click', () => {
                     forceDownload(file.download_url + '?raw=true', file.name);
                 });
@@ -271,6 +252,7 @@ const FOLDER_NAME = "Roblox";
             });
         }
 
+        // Forces the browser to download the file instead of opening it
         async function forceDownload(url, filename) {
             try {
                 const response = await fetch(url);
@@ -280,7 +262,7 @@ const FOLDER_NAME = "Roblox";
                 const a = document.createElement('a');
                 a.style.display = 'none';
                 a.href = blobUrl;
-                a.download = filename;
+                a.download = filename; // This forces the download
                 document.body.appendChild(a);
                 a.click();
                 
@@ -288,7 +270,7 @@ const FOLDER_NAME = "Roblox";
                 document.body.removeChild(a);
             } catch (error) {
                 console.error('Download failed:', error);
-                window.open(url, '_blank');
+                window.open(url, '_blank'); // Fallback
             }
         }
 
